@@ -42,14 +42,14 @@ namespace Enchere2022.Services
         {
 
             var jsonstring = JsonConvert.SerializeObject(param);
-
+            int nID;
             try
             {
                 var client = new HttpClient();
                 var jsonContent = new StringContent(jsonstring, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(Constantes.BaseApiAddress + paramUrl, jsonContent);
                 var content = await response.Content.ReadAsStringAsync();
-                var result = content == "OK"? true : false;
+                var result = int.TryParse(content,out nID)? true : false;
                 return result;
             }
             catch (Exception ex)

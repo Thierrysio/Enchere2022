@@ -4,6 +4,9 @@
              x:Class="Enchere2022.Vues.ListeProduitVue">
     <ContentPage.Content>
         <StackLayout>
+            <BoxView CornerRadius="15" BackgroundColor="#C72828" 
+                
+                />
             <Label Text="Welcome to Xamarin.Forms!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />

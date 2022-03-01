@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Enchere2022.VuesModeles
 {
-    class ListeProduitVueModele
+    class ListeProduitVueModele : BaseVueModele
     {
         #region Attributs
         private ObservableCollection<Produit> _maListeProduits;
