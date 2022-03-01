@@ -36,9 +36,26 @@ namespace Enchere2022.Services
             {
                 return null;
             }
+        }
 
+        public async Task<bool> PostAsync<T>(T param, string paramUrl)
+        {
 
+            var jsonstring = JsonConvert.SerializeObject(param);
 
+            try
+            {
+                var client = new HttpClient();
+                var jsonContent = new StringContent(jsonstring, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(Constantes.BaseApiAddress + paramUrl, jsonContent);
+                var content = await response.Content.ReadAsStringAsync();
+                var result = content == "OK"? true : false;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
