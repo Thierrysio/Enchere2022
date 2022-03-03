@@ -38,7 +38,7 @@ namespace Enchere2022.Services
             }
         }
 
-        public async Task<bool> PostAsync<T>(T param, string paramUrl)
+        public async Task<int> PostAsync<T>(T param, string paramUrl)
         {
 
             var jsonstring = JsonConvert.SerializeObject(param);
@@ -49,12 +49,31 @@ namespace Enchere2022.Services
                 var jsonContent = new StringContent(jsonstring, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(Constantes.BaseApiAddress + paramUrl, jsonContent);
                 var content = await response.Content.ReadAsStringAsync();
-                var result = int.TryParse(content,out nID)? true : false;
+                var result = int.TryParse(content,out nID)? nID : 0;
                 return result;
             }
             catch (Exception ex)
             {
-                return false;
+                return 0;
+            }
+        }
+
+        public async Task<ObservableCollection<T>> GetOneAsync<T>(string paramUrl, List<T> param, T param2)
+        {
+            try
+            {
+                var jsonstring = JsonConvert.SerializeObject(param2);
+                var clientHttp = new HttpClient();
+                var jsonContent = new StringContent(jsonstring, Encoding.UTF8, "application/json");
+
+                var response = await clientHttp.PostAsync(Constantes.BaseApiAddress + paramUrl, jsonContent);
+                var json = await response.Content.ReadAsStringAsync();
+                JsonConvert.DeserializeObject<List<T>>(json);
+                return GestionCollection.GetListes<T>(param);
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
     }

@@ -12,14 +12,14 @@ namespace Enchere2022.VuesModeles
         #region Attributs
         private ObservableCollection<Produit> _maListeProduits;
         private readonly Api _apiServices = new Api();
-        private bool _resultat;
+        private int _resultat;
         #endregion
 
         #region Constructeurs
 
         public ListeProduitVueModele()
         {
-            Resultat = false;
+            Resultat = 0;
             PostProduit(new Produit(0, "test","test",10));
             //GetListeProduits();
         }
@@ -29,7 +29,7 @@ namespace Enchere2022.VuesModeles
 
         #region Getters/Setters
         public ObservableCollection<Produit> MaListeProduits { get => _maListeProduits; set => _maListeProduits = value; }
-        public bool Resultat { get => _resultat; set => _resultat = value; }
+        public int Resultat { get => _resultat; set => _resultat = value; }
 
         #endregion
 
