@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -58,22 +59,24 @@ namespace Enchere2022.Services
             }
         }
 
-        public async Task<ObservableCollection<T>> GetOneAsync<T>(string paramUrl, List<T> param, T param2)
+        public async Task<T> GetOneAsync<T>(string paramUrl, List<T> param, int paramId)
         {
             try
             {
-                var jsonstring = JsonConvert.SerializeObject(param2);
+                string jsonString = @"{'Id':'"+paramId+"'}";
+                var getResult = JObject.Parse(jsonString);
+               
                 var clientHttp = new HttpClient();
-                var jsonContent = new StringContent(jsonstring, Encoding.UTF8, "application/json");
+                var jsonContent = new StringContent(getResult.ToString(), Encoding.UTF8, "application/json");
 
                 var response = await clientHttp.PostAsync(Constantes.BaseApiAddress + paramUrl, jsonContent);
                 var json = await response.Content.ReadAsStringAsync();
-                JsonConvert.DeserializeObject<List<T>>(json);
-                return GestionCollection.GetListes<T>(param);
+                T res = JsonConvert.DeserializeObject<T>(json);
+                return res;
             }
             catch (Exception ex)
             {
-                return null;
+                return default(T);
             }
         }
     }

@@ -19,14 +19,18 @@ namespace Enchere2022.VuesModeles
 
         public EnchereVueModele()
         {
-            this.GetOneEnchere(new Enchere(7, DateTime.Now, DateTime.Now, 0, 0, 0));
+            this.GetOneEnchere(new Enchere(7, DateTime.Now, DateTime.Now, 0, 0, 0,null));
         }
 
 
         #endregion
 
         #region Getters/Setters
-        public ObservableCollection<Enchere> MaListeEnchere { get => _maListeEnchere; set => _maListeEnchere = value; }
+        public ObservableCollection<Enchere> MaListeEnchere 
+        {
+            get { return _maListeEnchere; }
+            set { SetProperty(ref _maListeEnchere, value); }
+        }
 
         #endregion
 
@@ -34,8 +38,8 @@ namespace Enchere2022.VuesModeles
         public async void GetOneEnchere(Enchere uneEnchere)
         {
             Enchere.CollClasse.Clear();
-            MaListeEnchere = await _apiServices.GetOneAsync<Enchere>
-                   ("api/getEnchere", Enchere.CollClasse, uneEnchere);
+            Enchere res = await _apiServices.GetOneAsync<Enchere>
+                   ("api/getEnchereTestObjet", Enchere.CollClasse, uneEnchere.Id);
         }
         #endregion
     }

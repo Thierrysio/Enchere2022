@@ -19,7 +19,7 @@ namespace Enchere2022.VuesModeles
 
         public InscriptionVueModele()
         {
-            PostUser(new User("test", "test", "test", "test"));
+            PostUser(new User("tes1t", "tes1t", "test", "test"));
         }
 
         #endregion
