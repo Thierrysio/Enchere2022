@@ -1,0 +1,25 @@
+﻿Gestion des images et le compresseur
+
+Dans Enchere2022
+
+Creer une  interface IPhotoPickerService
+Creer une  interface MyImageCompressor
+
+Dans enchere2022.android
+
+Creer une class PhotoPickerService 
+Creer une class MyImageCompressor_Android
+
+Dans la class MainActivity
+
+Ajouter le code qui suit les commentaires
+
+Exemple d'utilisation
+
+Dans la classe InscriptionVue.xaml.cs
+
+ligne 34 :  Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
+
+ce code permet d'ouvrir le gestionnaire d'images et de recuperer le flux de données de cette image
+
+Lignes 57 -> 63 exemple de recuperation du flux de données de l'image et affichage de l'image dans la vue XAML
