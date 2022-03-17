@@ -4,9 +4,24 @@
              x:Class="Enchere2022.Vues.EnchereVue">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <CollectionView x:Name="CollViews" ItemsSource="{Binding MaListeEnchere}"  SelectionMode="Single" SelectionChanged ="CollViews_SelectionChanged"  VerticalOptions="Fill">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="4" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Label Grid.Row="1"
+                       Text="{Binding Datedebut}"
+                       FontAttributes="Bold"
+                       LineBreakMode="TailTruncation" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button x:Name="EnvoiCommande" Text="" Clicked="EnvoiCommande_Clicked" />
+            <Button x:Name="EnvoiCommande2" Text="" Clicked="EnvoiCommande2_Clicked" />
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

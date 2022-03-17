@@ -1,4 +1,5 @@
-﻿using Enchere2022.VuesModeles;
+﻿using Enchere2022.Modeles;
+using Enchere2022.VuesModeles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,25 @@ namespace Enchere2022.Vues
         {
             InitializeComponent();
             BindingContext = vueModel = new EnchereVueModele();
+        }
+
+        private void EnvoiCommande_Clicked(object sender, EventArgs e)
+        {
+            vueModel.GetOneEnchere(new Enchere(7, DateTime.Now, DateTime.Now, 0,null));
+            this.BackgroundColor = Color.Red;
+        }
+
+        private void EnvoiCommande2_Clicked(object sender, EventArgs e)
+        {
+        }  
+
+        private void CollViews_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //var  previous = e.PreviousSelection.FirstOrDefault();
+                var  current = (Enchere) e.CurrentSelection.FirstOrDefault();
+
+        
+            
         }
     }
 }

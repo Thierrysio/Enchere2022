@@ -7,6 +7,9 @@
             <Label Text="Welcome to Xamarin.Forms!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+            <Image x:Name="image" />
+            <Button x:Name="toto" Clicked="toto_ClickedAsync"/>
+            <Button x:Name="getImage" Text="recuperer image du user" Clicked="getImage_Clicked" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

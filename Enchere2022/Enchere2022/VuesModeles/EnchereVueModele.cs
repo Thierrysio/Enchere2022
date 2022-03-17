@@ -19,7 +19,8 @@ namespace Enchere2022.VuesModeles
 
         public EnchereVueModele()
         {
-            this.GetOneEnchere(new Enchere(7, DateTime.Now, DateTime.Now, 0, 0, 0,null));
+            this.GetEnchere();
+            //this.GetOneEnchere(new Enchere(7, DateTime.Now, DateTime.Now,0,null));
         }
 
 
@@ -38,8 +39,14 @@ namespace Enchere2022.VuesModeles
         public async void GetOneEnchere(Enchere uneEnchere)
         {
             Enchere.CollClasse.Clear();
-            Enchere res = await _apiServices.GetOneAsync<Enchere>
-                   ("api/getEnchereTestObjet", Enchere.CollClasse, uneEnchere.Id);
+            //Enchere res = await _apiServices.GetOneAsync<Enchere> ("api/getEnchereTestObjet", Enchere.CollClasse, uneEnchere.Id);
+        }
+
+        public async void GetEnchere()
+        {
+            Enchere.CollClasse.Clear();
+           MaListeEnchere = await _apiServices.GetAllAsync<Enchere>
+                   ("api/getEnchere", Enchere.CollClasse );
         }
         #endregion
     }

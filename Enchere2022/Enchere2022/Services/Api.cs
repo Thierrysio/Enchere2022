@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace Enchere2022.Services
             {
                 var clientHttp = new HttpClient();
                 var json = await clientHttp.GetStringAsync(Constantes.BaseApiAddress + paramUrl);
-                JsonConvert.DeserializeObject<List<T>>(json);
+                JsonConvert.DeserializeObject<List<T>>(json,new IsoDateTimeConverter { DateTimeFormat="yyyy-MM-dd HH:mm:ss"});
                 return GestionCollection.GetListes<T>(param);
             }
             catch (Exception ex)
@@ -59,11 +60,11 @@ namespace Enchere2022.Services
             }
         }
 
-        public async Task<T> GetOneAsync<T>(string paramUrl, List<T> param, int paramId)
+        public async Task<T> GetOneAsync<T>(string paramUrl, List<T> param, string paramEmail,string paramPassword)
         {
             try
             {
-                string jsonString = @"{'Id':'"+paramId+"'}";
+                string jsonString = @"{'Email':'"+paramEmail+ "','Password':'" + paramPassword + "'}";
                 var getResult = JObject.Parse(jsonString);
                
                 var clientHttp = new HttpClient();
@@ -71,7 +72,7 @@ namespace Enchere2022.Services
 
                 var response = await clientHttp.PostAsync(Constantes.BaseApiAddress + paramUrl, jsonContent);
                 var json = await response.Content.ReadAsStringAsync();
-                T res = JsonConvert.DeserializeObject<T>(json);
+                T res = JsonConvert.DeserializeObject<T>(json, new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
                 return res;
             }
             catch (Exception ex)

@@ -20,7 +20,8 @@ namespace Enchere2022.VuesModeles
         public ListeProduitVueModele()
         {
             Resultat = 0;
-            PostProduit(new Produit(0, "test","test",10));
+            this.GetListeProduits();
+            //PostProduit(new Produit(0, "test","test",10));
             //GetListeProduits();
         }
 
