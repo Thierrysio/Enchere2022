@@ -7,9 +7,17 @@
             <Label Text="Welcome to Xamarin.Forms!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+           
+            <Grid ColumnDefinitions="*,*,*">
+                <Label Grid.Row="0" Grid.Column="0" Text="{Binding TempsRestantHeures}"/>
+                <Label Grid.Row="0" Grid.Column="1" Text="{Binding TempsRestantMinutes}"/>
+                <Label Grid.Row="0" Grid.Column="2" Text="{Binding TempsRestantSecondes}"/>
+            </Grid>
             <Image x:Name="image" />
             <Button x:Name="toto" Clicked="toto_ClickedAsync"/>
             <Button x:Name="getImage" Text="recuperer image du user" Clicked="getImage_Clicked" />
+            <Button x:Name="getTime" Text="recuperer le temps" Clicked="getTime_Clicked" />
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

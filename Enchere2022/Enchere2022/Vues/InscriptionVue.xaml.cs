@@ -61,8 +61,11 @@ namespace Enchere2022.Vues
             image.Source = Conversion.ConvertFromBase64(monUser.Photo);
         }
 
+        private void getTime_Clicked(object sender, EventArgs e)
+        {
+            Vuemodel.GetTimerRemaining();
 
-
+        }
     }
 
 }
