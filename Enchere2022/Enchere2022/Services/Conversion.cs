@@ -10,6 +10,14 @@ namespace Enchere2022.Services
 {
     static class Conversion
     {
+        public static ImageSource ConvertFromBase64(string param)
+        {
+
+            byte[] Base64Stream = Convert.FromBase64String(param);
+            return ImageSource.FromStream(() => new MemoryStream(Base64Stream));
+
+
+        }
         public static string ConvertToBase64(this Stream stream)
         {
             if (stream is MemoryStream memoryStream)

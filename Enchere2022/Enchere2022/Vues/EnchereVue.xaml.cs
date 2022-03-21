@@ -19,6 +19,7 @@ namespace Enchere2022.Vues
         {
             InitializeComponent();
             BindingContext = vueModel = new EnchereVueModele();
+
         }
 
         private void EnvoiCommande_Clicked(object sender, EventArgs e)
@@ -33,7 +34,6 @@ namespace Enchere2022.Vues
 
         private void CollViews_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //var  previous = e.PreviousSelection.FirstOrDefault();
                 var  current = (Enchere) e.CurrentSelection.FirstOrDefault();
 
         

@@ -58,8 +58,7 @@ namespace Enchere2022.Vues
         {
           User monUser = await Vuemodel.GetUser("tlg","tlg");
 
-            byte[] Base64Stream = Convert.FromBase64String(monUser.Photo);
-            image.Source = ImageSource.FromStream(() => new MemoryStream(Base64Stream));
+            image.Source = Conversion.ConvertFromBase64(monUser.Photo);
         }
 
 
