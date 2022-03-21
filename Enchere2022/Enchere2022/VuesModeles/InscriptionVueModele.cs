@@ -3,6 +3,7 @@ using Enchere2022.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Enchere2022.VuesModeles
@@ -68,19 +69,19 @@ namespace Enchere2022.VuesModeles
 
         public  void GetTimerRemaining()
         {
-            DateTime datefin = new DateTime(2022, 3, 21, 16, 43, 0);
+            DateTime datefin = new DateTime(2022, 3, 21, 16, 58, 0);
             TimeSpan interval = datefin - DateTime.Now;
             DecompteTimer tmps = new DecompteTimer();
             
-            Task.Run( () =>
+            Task.Run(() =>
             { 
             tmps.Start(interval);
              while (tmps.TempsRestant > TimeSpan.Zero)
                 {
                     TempsRestantHeures = tmps.TempsRestant.Hours;
                     TempsRestantMinutes = tmps.TempsRestant.Minutes;
-
                     TempsRestantSecondes = tmps.TempsRestant.Seconds;
+                    Thread.Sleep(800);
                 }
             });
         }
