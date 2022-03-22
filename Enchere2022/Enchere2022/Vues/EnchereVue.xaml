@@ -3,25 +3,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Enchere2022.Vues.EnchereVue">
     <ContentPage.Content>
+        <ScrollView>
         <StackLayout>
-            <CollectionView x:Name="CollViews" ItemsSource="{Binding MaListeEnchere}"  SelectionMode="Single" SelectionChanged ="CollViews_SelectionChanged"  VerticalOptions="Fill">
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" Span="4" />
-                </CollectionView.ItemsLayout>
+                <Frame HasShadow="True" CornerRadius="15" Margin="20" Padding="10" HeightRequest="100" BackgroundColor="AliceBlue">
+                    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackLayout Orientation="Horizontal" Spacing="8">
+                            <Button Clicked="Button_Clicked"></Button>                        </StackLayout>
+                    </Grid>
+                </Frame>
+                <StackLayout IsVisible= "{Binding VisibleEnchereEnCoursTypeClassique}">
+                <CollectionView ItemsSource="{Binding MaListeEnchere}" SelectionChanged="CollectionView_SelectionChanged"   SelectionMode="Single" BackgroundColor="White">
+
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Label Grid.Row="1"
-                       Text="{Binding Datedebut}"
-                       FontAttributes="Bold"
-                       LineBreakMode="TailTruncation" />
+                        <Grid Padding="10" Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*" />
+                                <RowDefinition Height="1.5*" />
+                                <RowDefinition Height="1*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding LeProduit.Photo}" Aspect="Fill" Grid.RowSpan="2" HeightRequest="100" Grid.Column="0"/>
+                            <Label Text="{Binding LeProduit.Nom}" Grid.Row="1" Grid.Column="1" TextColor="Black" />
+                            <BoxView Grid.Row="2" HorizontalOptions="FillAndExpand" Grid.ColumnSpan="3"
+                                         VerticalOptions="Center" HeightRequest="3" BackgroundColor="DarkGray" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Button x:Name="EnvoiCommande" Text="" Clicked="EnvoiCommande_Clicked" />
-            <Button x:Name="EnvoiCommande2" Text="" Clicked="EnvoiCommande2_Clicked" />
-
-        </StackLayout>
+                </StackLayout>
+            </StackLayout>
+            </ScrollView>
     </ContentPage.Content>
 </ContentPage>

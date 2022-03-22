@@ -22,22 +22,17 @@ namespace Enchere2022.Vues
 
         }
 
-        private void EnvoiCommande_Clicked(object sender, EventArgs e)
+        private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            vueModel.GetOneEnchere(new Enchere(7, DateTime.Now, DateTime.Now, 0,null));
-            this.BackgroundColor = Color.Red;
+            var current = (Enchere)e.CurrentSelection.FirstOrDefault();
+            Application.Current.MainPage = new PageEnchereVue(current);
+
+
         }
 
-        private void EnvoiCommande2_Clicked(object sender, EventArgs e)
+        private void Button_Clicked(object sender, EventArgs e)
         {
-        }  
-
-        private void CollViews_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-                var  current = (Enchere) e.CurrentSelection.FirstOrDefault();
-
-        
-            
+            vueModel.VisibleEnchereEnCoursTypeClassique = true;
         }
     }
 }

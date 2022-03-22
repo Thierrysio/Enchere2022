@@ -12,15 +12,16 @@ namespace Enchere2022.VuesModeles
         #region Attributs
         private readonly Api _apiServices = new Api();
         private ObservableCollection<Enchere> _maListeEnchere;
-
+        private bool _visibleEnchereEnCoursTypeClassique = false;
         #endregion
 
         #region Constructeurs
 
         public EnchereVueModele()
         {
-            this.GetEnchere();
-            //this.GetOneEnchere(new Enchere(7, DateTime.Now, DateTime.Now,0,null));
+            VisibleEnchereEnCoursTypeClassique = false;
+            GetListeEncheres();
+
         }
 
 
@@ -33,20 +34,21 @@ namespace Enchere2022.VuesModeles
             set { SetProperty(ref _maListeEnchere, value); }
         }
 
+        public bool VisibleEnchereEnCoursTypeClassique
+        {
+            get { return _visibleEnchereEnCoursTypeClassique; }
+            set { SetProperty(ref _visibleEnchereEnCoursTypeClassique, value); }
+        }
         #endregion
 
         #region Methodes
-        public async void GetOneEnchere(Enchere uneEnchere)
+        public async void GetListeEncheres()
         {
+            VisibleEnchereEnCoursTypeClassique = false;
+            MaListeEnchere = await _apiServices.GetAllAsync<Enchere>
+                ("api/getEncheresEnCours", Enchere.CollClasse);
             Enchere.CollClasse.Clear();
-            //Enchere res = await _apiServices.GetOneAsync<Enchere> ("api/getEnchereTestObjet", Enchere.CollClasse, uneEnchere.Id);
-        }
 
-        public async void GetEnchere()
-        {
-            Enchere.CollClasse.Clear();
-           MaListeEnchere = await _apiServices.GetAllAsync<Enchere>
-                   ("api/getEnchere", Enchere.CollClasse );
         }
         #endregion
     }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Enchere2022.Modeles
 {
-    class TypeEnchere
+    public class TypeEnchere
     {
         #region Attributs
 

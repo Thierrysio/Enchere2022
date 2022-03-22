@@ -1,4 +1,5 @@
-﻿using Enchere2022.VuesModeles;
+﻿using Enchere2022.Modeles;
+using Enchere2022.VuesModeles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,13 @@ using Xamarin.Forms.Xaml;
 namespace Enchere2022.Vues
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ListeProduitVue : ContentPage
+    public partial class PageEnchereVue : ContentPage
     {
-        ListeProduitVueModele vueModel;
-        public ListeProduitVue()
+        PageEnchereVueModele VuesModele;
+        public PageEnchereVue(Enchere param)
         {
             InitializeComponent();
-            BindingContext = vueModel = new ListeProduitVueModele();
+            BindingContext = VuesModele = new PageEnchereVueModele(param);
 
         }
     }
