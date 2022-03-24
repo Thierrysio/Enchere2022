@@ -15,7 +15,6 @@
             </Grid>
             <Image x:Name="image" />
             <Button x:Name="toto" Clicked="toto_ClickedAsync"/>
-            <Button x:Name="getImage" Text="recuperer image du user" Clicked="getImage_Clicked" />
             <Button x:Name="getTime" Text="recuperer le temps" Clicked="getTime_Clicked" />
 
         </StackLayout>

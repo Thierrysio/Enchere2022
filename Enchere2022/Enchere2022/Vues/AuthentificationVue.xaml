@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Enchere2022.Vues.AuthentificationVue">
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness">
+            <OnPlatform.iOS>
+                0,20,0,0
+            </OnPlatform.iOS>
+            <OnPlatform.Android>
+                0,0,0,0
+            </OnPlatform.Android>
+        </OnPlatform>
+    </ContentPage.Padding>
+    <ContentPage.Content>
+        <Grid BackgroundColor="White">
+
+            <StackLayout Padding="40" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+                <Image Source="Logo.png" WidthRequest="180" HeightRequest="180"></Image>
+
+                <Label Text="Page de connexion" Margin="20" FontSize="20" HorizontalTextAlignment="Center" TextColor="black"/>
+
+            </StackLayout>
+
+            <Grid Grid.Row="1" Margin="30,0,20,0">
+
+
+                <Image Source="encheres.jpg" HeightRequest="110" VerticalOptions="EndAndExpand"/>
+                <Entry Grid.Row="1" Placeholder="Email" Margin="5,0,0,0" TextColor="Black" Text="{Binding Email}" PlaceholderColor="gray" FontSize="16"/>
+                <Entry Grid.Row="2" Placeholder="Mot de passe" Margin="5,0,0,0" TextColor="Black" Text="{Binding Password}" PlaceholderColor="Gray" FontSize="16"/>
+
+            </Grid>
+            <StackLayout Grid.Row="2" BackgroundColor="White">
+                <Grid Grid.Row="5" Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="authentification" Clicked="authentification_Clicked"  Text="Se connecter" BackgroundColor="#0080FF" TextColor="White" Margin="0,0,20,0" Grid.Column="2" />
+                </Grid>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

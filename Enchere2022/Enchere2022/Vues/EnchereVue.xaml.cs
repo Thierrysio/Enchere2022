@@ -22,17 +22,32 @@ namespace Enchere2022.Vues
 
         }
 
-        private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CollectionView_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
             var current = (Enchere)e.CurrentSelection.FirstOrDefault();
             Application.Current.MainPage = new PageEnchereVue(current);
+        }
 
+        private void classique_Clicked(object sender, EventArgs e)
+        {
+            vueModel.VisibleEnchereEnCoursTypeClassique = true;
+            vueModel.VisibleEnchereEnCoursTypeInverse = false;
+            vueModel.VisibleEnchereEnCoursTypeFlash = false;
 
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
+        private void inverse_Clicked(object sender, EventArgs e)
         {
-            vueModel.VisibleEnchereEnCoursTypeClassique = true;
+            vueModel.VisibleEnchereEnCoursTypeClassique = false;
+            vueModel.VisibleEnchereEnCoursTypeInverse = true;
+            vueModel.VisibleEnchereEnCoursTypeFlash = false;
+        }
+
+        private void flash_Clicked(object sender, EventArgs e)
+        {
+            vueModel.VisibleEnchereEnCoursTypeClassique = false;
+            vueModel.VisibleEnchereEnCoursTypeInverse = false;
+            vueModel.VisibleEnchereEnCoursTypeFlash = true;
         }
     }
 }

@@ -45,7 +45,7 @@ namespace Enchere2022.Vues
 
                 }
 
-                Vuemodel.PostUser(new User("gg1hhjhg2", "xjjfxi2x2x", "xx2ixijjxx", Photo64));
+                Vuemodel.PostUser(new User("gg1hhjhg2", "xjjfxi2x2x", "xx2ixijjxx", Photo64,0));
 
 
             }
@@ -54,16 +54,15 @@ namespace Enchere2022.Vues
 
         }
 
-        private async void getImage_Clicked(object sender, EventArgs e)
+        /*private async void getImage_Clicked(object sender, EventArgs e)
         {
-          User monUser = await Vuemodel.GetUser("tlg","tlg");
+         /User monUser = await Vuemodel.GetUser("tlg","tlg");
 
             image.Source = Conversion.ConvertFromBase64(monUser.Photo);
         }
-
+        */
         private void getTime_Clicked(object sender, EventArgs e)
         {
-            Vuemodel.GetTimerRemaining();
 
         }
     }

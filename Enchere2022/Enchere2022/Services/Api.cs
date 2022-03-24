@@ -60,15 +60,55 @@ namespace Enchere2022.Services
             }
         }
 
-        public async Task<T> GetOneAsync<T>(string paramUrl, List<T> param, string paramEmail,string paramPassword)
+        public async Task<ObservableCollection<T>> GetAllAsyncID<T>(string paramUrl, List<T> param, int param2)
+        {
+
+
+            try
+            {
+                string jsonString = @"{'IdTypeEnchere':'" + param2 + "'}";
+                JObject getResult = JObject.Parse(jsonString);
+                var clientHttp = new HttpClient();
+                var jsonContent = new StringContent(getResult.ToString(), Encoding.UTF8, "application/json");
+                var response = await clientHttp.PostAsync(Constantes.BaseApiAddress + paramUrl, jsonContent);
+                var json = await response.Content.ReadAsStringAsync();
+                JsonConvert.DeserializeObject<List<T>>(json);
+                return GestionCollection.GetListes<T>(param);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        public async Task<T> GetOneAsyncID<T>(string paramUrl, List<T> param, string paramID)
         {
             try
             {
-                string jsonString = @"{'Email':'"+paramEmail+ "','Password':'" + paramPassword + "'}";
+                string jsonString = @"{'Id':'"+paramID+ "'}";
                 var getResult = JObject.Parse(jsonString);
                
                 var clientHttp = new HttpClient();
                 var jsonContent = new StringContent(getResult.ToString(), Encoding.UTF8, "application/json");
+
+                var response = await clientHttp.PostAsync(Constantes.BaseApiAddress + paramUrl, jsonContent);
+                var json = await response.Content.ReadAsStringAsync();
+                T res = JsonConvert.DeserializeObject<T>(json, new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
+                return res;
+            }
+            catch (Exception ex)
+            {
+                return default(T);
+            }
+        }
+
+        public async Task<T> GetOneAsync<T>(string paramUrl, List<T> param, T paramT)
+        {
+            try
+            {
+                var jsonString = JsonConvert.SerializeObject(paramT);
+
+                var clientHttp = new HttpClient();
+                var jsonContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
                 var response = await clientHttp.PostAsync(Constantes.BaseApiAddress + paramUrl, jsonContent);
                 var json = await response.Content.ReadAsStringAsync();
