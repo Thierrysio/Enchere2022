@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:Enchere2022.Controles"
+             xmlns:local="clr-namespace:Enchere2022"
              x:Class="Enchere2022.Vues.PageEnchereVue">
     <ContentPage.Content>
         <ScrollView>
@@ -75,9 +77,33 @@
                             <StackLayout Orientation="Horizontal" Spacing="8">
                                 <Label Text="Votre proposition" HorizontalOptions="CenterAndExpand"  FontSize="15" TextColor="Black"/>
                                 <Label Text="{Binding PrixActuel.PrixEnchere}" FontSize="35" FontAttributes="Bold" TextColor="Black" HorizontalOptions="End"/>
-
                             </StackLayout>
                         </Grid>
+                    </Frame>
+                </ContentView>
+                <ContentView>
+                    <Frame HasShadow="True" CornerRadius="15" Margin="20" Padding="10" HeightRequest="100" BackgroundColor="AliceBlue">
+                        <CollectionView ItemsSource="{Binding MaListeSixDernieresEncheres}"  BackgroundColor="White">
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="10" Margin="10" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="15" />
+                                            
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Text="{Binding Pseudo}" Grid.Row="0" Grid.Column="0" TextColor="Black" />
+                                        <Label Text="{Binding PrixEnchere}" Grid.Row="0" Grid.Column="1" TextColor="Black" />
+                                        <BoxView Grid.Row="2" HorizontalOptions="FillAndExpand" Grid.ColumnSpan="3"
+                                         VerticalOptions="Center" HeightRequest="3" BackgroundColor="DarkGray" />
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </Frame>
                 </ContentView>
 

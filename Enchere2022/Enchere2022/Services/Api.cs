@@ -60,13 +60,13 @@ namespace Enchere2022.Services
             }
         }
 
-        public async Task<ObservableCollection<T>> GetAllAsyncID<T>(string paramUrl, List<T> param, int param2)
+        public async Task<ObservableCollection<T>> GetAllAsyncID<T>(string paramUrl, List<T> param,string cle, int param2)
         {
 
 
             try
             {
-                string jsonString = @"{'IdTypeEnchere':'" + param2 + "'}";
+                string jsonString = @"{'"+cle+"':'" + param2 + "'}";
                 JObject getResult = JObject.Parse(jsonString);
                 var clientHttp = new HttpClient();
                 var jsonContent = new StringContent(getResult.ToString(), Encoding.UTF8, "application/json");

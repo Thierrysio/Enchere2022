@@ -2,6 +2,7 @@
 using Enchere2022.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace Enchere2022.VuesModeles
         private int _tempsRestantHeures;
         private int _tempsRestantMinutes;
         private int _tempsRestantSecondes;
+        private ObservableCollection<Encherir> _maListeSixDernieresEncheres;
         private Encherir _prixActuel;
         private string _idUser;
         #endregion
@@ -32,6 +34,7 @@ namespace Enchere2022.VuesModeles
             this.GetTimerRemaining(param.Datefin);
             this.GetValeurActuelle();
             this.SetEnchereAuto();
+            this.SixDernieresEncheres();
         }
         #endregion
         #region Getters/Setters
@@ -74,7 +77,16 @@ namespace Enchere2022.VuesModeles
             set { SetProperty(ref _prixActuel, value); }
         }
 
-        public string IdUser { get => _idUser; set => _idUser = value; }
+        public string IdUser 
+        { 
+            get => _idUser; 
+            set => _idUser = value; 
+        }
+        public ObservableCollection<Encherir> MaListeSixDernieresEncheres 
+        { 
+            get => _maListeSixDernieresEncheres;
+            set { SetProperty(ref _maListeSixDernieresEncheres, value); }
+        }
         #endregion
         #region methodes
         public void GetTimerRemaining(DateTime param)
@@ -107,6 +119,20 @@ namespace Enchere2022.VuesModeles
             });
         }
 
+        public void SixDernieresEncheres()
+        {
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    Encherir.CollClasse.Clear();
+                    MaListeSixDernieresEncheres = await _apiServices.GetAllAsyncID<Encherir>("api/getLastSixOffer", Encherir.CollClasse,"Id", MonEnchere.Id);
+                   
+                    Thread.Sleep(10000);
+                }
+            });
+        }
+
         public void SetEnchereAuto()
         {
 
@@ -119,7 +145,7 @@ namespace Enchere2022.VuesModeles
                     if (PrixActuel != null && PrixActuel.Id != int.Parse(IdUser))
                     {
                         float paramValeur = PrixActuel.PrixEnchere + 1;
-                        int resultat = await _apiServices.PostAsync<Encherir>(new Encherir(paramValeur, int.Parse(IdUser), MonEnchere.Id,0), "api/postEncherir");
+                        int resultat = await _apiServices.PostAsync<Encherir>(new Encherir(paramValeur, int.Parse(IdUser), MonEnchere.Id,0,""), "api/postEncherir");
 
                     }
                     Thread.Sleep(10000);
