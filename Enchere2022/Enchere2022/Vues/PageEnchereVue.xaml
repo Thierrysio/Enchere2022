@@ -1,9 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:converters="clr-namespace:Enchere2022.Controles"
+             xmlns:converters="clr-namespace:Enchere2022.Controles.Converters"
              xmlns:local="clr-namespace:Enchere2022"
              x:Class="Enchere2022.Vues.PageEnchereVue">
+    <ContentPage.Resources>
+        <converters:IndexToColorConverter x:Key="IndexToColorConverterGrid"
+                                          EvenColor="Silver"
+                                          OddColor="White"/>
+
+        <converters:IndexToColorConverter x:Key="IndexToColorConverterText"
+                                          EvenColor="White"
+                                          OddColor="Black"/>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <ScrollView>
            
@@ -83,11 +92,15 @@
                 </ContentView>
                 <ContentView>
                     <Frame HasShadow="True" CornerRadius="15" Margin="20" Padding="10" HeightRequest="100" BackgroundColor="AliceBlue">
-                        <CollectionView ItemsSource="{Binding MaListeSixDernieresEncheres}"  BackgroundColor="White">
+                        <CollectionView x:Name="MyCollectionView" ItemsSource="{Binding MaListeSixDernieresEncheres}"  BackgroundColor="White">
+
+
+                          
+
 
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid Padding="10" Margin="10" >
+                                    <Grid Padding="10" Margin="10" BackgroundColor="{Binding ., Converter={StaticResource IndexToColorConverterGrid}, ConverterParameter={x:Reference MyCollectionView}}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="15" />
                                             
@@ -98,8 +111,7 @@
                                         </Grid.ColumnDefinitions>
                                         <Label Text="{Binding Pseudo}" Grid.Row="0" Grid.Column="0" TextColor="Black" />
                                         <Label Text="{Binding PrixEnchere}" Grid.Row="0" Grid.Column="1" TextColor="Black" />
-                                        <BoxView Grid.Row="2" HorizontalOptions="FillAndExpand" Grid.ColumnSpan="3"
-                                         VerticalOptions="Center" HeightRequest="3" BackgroundColor="DarkGray" />
+
                                     </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>

@@ -4,7 +4,7 @@ using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
-namespace Enchere2022.Controles
+namespace Enchere2022.Controles.Converters
 {
     public class IndexToColorConverter : IValueConverter
     {
