@@ -152,6 +152,19 @@ namespace Enchere2022.VuesModeles
                 }
             });
         }
+
+        public async void EncherirManuel(float param)
+        {
+            IdUser = await SecureStorage.GetAsync("ID");
+
+
+                if (PrixActuel != null)
+                {
+                    int resultat = await _apiServices.PostAsync<Encherir>(new Encherir(param, int.Parse(IdUser), MonEnchere.Id, 0, ""), "api/postEncherir");
+
+                }
+            
+        }
         #endregion
 
     }

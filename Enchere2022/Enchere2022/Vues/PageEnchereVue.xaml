@@ -78,20 +78,19 @@
             </ContentView>
                 <ContentView>
                     <Frame HasShadow="True" CornerRadius="15" Margin="20" Padding="10" HeightRequest="100" BackgroundColor="AliceBlue">
-                        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <StackLayout Orientation="Horizontal" Spacing="8">
-                                <Label Text="Votre proposition" HorizontalOptions="CenterAndExpand"  FontSize="15" TextColor="Black"/>
-                                <Label Text="{Binding PrixActuel.PrixEnchere}" FontSize="35" FontAttributes="Bold" TextColor="Black" HorizontalOptions="End"/>
-                            </StackLayout>
+                        <Grid RowDefinitions="2*,2*" ColumnDefinitions="180,100" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                         
+                                
+                                <Label  Grid.Row=" 0" Grid.Column="0" Text="Votre proposition" HorizontalOptions="StartAndExpand"  FontSize="15" TextColor="Black"/>
+                                <Label Grid.Row=" 0" Grid.Column="1" Text="{Binding PrixActuel.PrixEnchere}" FontSize="35" FontAttributes="Bold" TextColor="Black" HorizontalOptions="End"/>
+                            
+                            <Entry x:Name="SaisieEnchere" Grid.Row=" 1" Grid.Column="0" HorizontalOptions="StartAndExpand" Placeholder="Saisir enchere"/>
+                            <Button x:Name="ButtonValiderEnchere" HorizontalOptions="StartAndExpand" Clicked="ButtonValiderEnchere_Clicked" Grid.Row="1" Grid.Column="1"/>
                         </Grid>
                     </Frame>
                 </ContentView>
                 <ContentView>
-                    <Frame HasShadow="True" CornerRadius="15" Margin="20" Padding="10" HeightRequest="100" BackgroundColor="AliceBlue">
+                    <Frame HasShadow="True" CornerRadius="15" Margin="20" HeightRequest="330" Padding="10"  BackgroundColor="AliceBlue">
                         <CollectionView x:Name="MyCollectionView" ItemsSource="{Binding MaListeSixDernieresEncheres}"  BackgroundColor="White">
 
 
