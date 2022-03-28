@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Enchere2022.Vues.EnchereVue">
     <ContentPage.Content>
-        <ScrollView>
+        <ScrollView x:Name="remote">
             <StackLayout>
                 
                     <Frame
@@ -113,8 +113,11 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </StackLayout>
-
+            <StackLayout>
+                <Button Text="remonte" Clicked="Button_Clicked"></Button>
             </StackLayout>
+            </StackLayout>
+
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

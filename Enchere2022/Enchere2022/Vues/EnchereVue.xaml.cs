@@ -49,5 +49,11 @@ namespace Enchere2022.Vues
             vueModel.VisibleEnchereEnCoursTypeInverse = false;
             vueModel.VisibleEnchereEnCoursTypeFlash = true;
         }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            await remote.ScrollToAsync(0, 0, true);
+
+        }
     }
 }
