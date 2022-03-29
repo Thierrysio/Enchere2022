@@ -19,6 +19,8 @@
 
             
             <StackLayout BackgroundColor="White">
+
+                <ImageButton HorizontalOptions="Start" Clicked="ImageButton_Clicked" BackgroundColor="White" Source="img_490217" HeightRequest="30" WidthRequest="30"></ImageButton>
             
             <Label Text="{Binding MonEnchere.LeProduit.Nom}"
                    FontAttributes="Bold,Italic"
@@ -81,9 +83,33 @@
                         <Grid RowDefinitions="2*,2*" ColumnDefinitions="180,100" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                          
                                 
-                                <Label  Grid.Row=" 0" Grid.Column="0" Text="Votre proposition" HorizontalOptions="StartAndExpand"  FontSize="15" TextColor="Black"/>
-                                <Label Grid.Row=" 0" Grid.Column="1" Text="{Binding PrixActuel.PrixEnchere}" FontSize="35" FontAttributes="Bold" TextColor="Black" HorizontalOptions="End"/>
-                            
+                                <Label  Grid.Row=" 0" Grid.ColumnSpan="2" Text="Votre plafond d'enchere" HorizontalOptions="Center"  FontSize="15" TextColor="Black"/>
+                                <Entry x:Name="SaisiePlafond" Grid.Row="1" Grid.ColumnSpan="2" HorizontalOptions="CenterAndExpand" Placeholder="Saisir plafond" Unfocused="SaisiePlafond_Unfocused"/>
+
+
+                        </Grid>
+                    </Frame>
+                </ContentView>
+                <ContentView>
+                    <Frame HasShadow="True" CornerRadius="15" Margin="20" Padding="10" HeightRequest="100" BackgroundColor="AliceBlue">
+                        <Grid RowDefinitions="2*,2*" ColumnDefinitions="180,100" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+
+                            <Label  Grid.Row=" 0" Grid.ColumnSpan="2" Text="lancer les encheres avant .." HorizontalOptions="Center"  FontSize="15" TextColor="Black"/>
+                            <Entry x:Name="SaisieSecondes" Grid.Row="1" Grid.ColumnSpan="2" HorizontalOptions="CenterAndExpand" Placeholder="Saisir plafond" Unfocused="SaisieSecondes_Unfocused"/>
+
+
+                        </Grid>
+                    </Frame>
+                </ContentView>
+                <ContentView>
+                    <Frame HasShadow="True" CornerRadius="15" Margin="20" Padding="10" HeightRequest="100" BackgroundColor="AliceBlue">
+                        <Grid RowDefinitions="2*,2*" ColumnDefinitions="180,100" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+
+                            <Label  Grid.Row=" 0" Grid.Column="0" Text="Votre proposition" HorizontalOptions="StartAndExpand"  FontSize="15" TextColor="Black"/>
+                            <Label Grid.Row=" 0" Grid.Column="1" Text="{Binding PrixActuel.PrixEnchere}" FontSize="35" FontAttributes="Bold" TextColor="Black" HorizontalOptions="End"/>
+
                             <Entry x:Name="SaisieEnchere" Grid.Row=" 1" Grid.Column="0" HorizontalOptions="StartAndExpand" Placeholder="Saisir enchere"/>
                             <Button x:Name="ButtonValiderEnchere" HorizontalOptions="StartAndExpand" Clicked="ButtonValiderEnchere_Clicked" Grid.Row="1" Grid.Column="1"/>
                         </Grid>

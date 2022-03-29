@@ -29,7 +29,6 @@ namespace Enchere2022.Modeles
             this._datedebut = datedebut;
             this._datefin = datefin;
             this._prixReserve = prixReserve;
-            //this.prix_enchere = prix_enchere;
             this.leTypeEnchere = leTypeEnchere;
             this.leProduit = leProduit;
         }

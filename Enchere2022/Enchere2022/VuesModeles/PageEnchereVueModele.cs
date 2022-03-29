@@ -23,6 +23,8 @@ namespace Enchere2022.VuesModeles
         private ObservableCollection<Encherir> _maListeSixDernieresEncheres;
         private Encherir _prixActuel;
         private string _idUser;
+        private float _plafond;
+        private float _saisieSecondes;
         #endregion
         #region Constructeurs
 
@@ -77,15 +79,27 @@ namespace Enchere2022.VuesModeles
             set { SetProperty(ref _prixActuel, value); }
         }
 
-        public string IdUser 
-        { 
-            get => _idUser; 
-            set => _idUser = value; 
+        public string IdUser
+        {
+            get => _idUser;
+            set => _idUser = value;
         }
-        public ObservableCollection<Encherir> MaListeSixDernieresEncheres 
-        { 
+        public ObservableCollection<Encherir> MaListeSixDernieresEncheres
+        {
             get => _maListeSixDernieresEncheres;
             set { SetProperty(ref _maListeSixDernieresEncheres, value); }
+        }
+
+        public float Plafond
+        {
+            get => _plafond;
+            set { SetProperty(ref _plafond, value); }
+        }
+
+        public float SaisieSecondes
+        {
+            get => _saisieSecondes;
+            set { SetProperty(ref _saisieSecondes, value); }
         }
         #endregion
         #region methodes
@@ -93,7 +107,7 @@ namespace Enchere2022.VuesModeles
         {
             DateTime datefin = param;
             TimeSpan interval = datefin - DateTime.Now;
-            
+
 
             Task.Run(() =>
             {
@@ -114,7 +128,8 @@ namespace Enchere2022.VuesModeles
                 while (true)
                 {
                     PrixActuel = await _apiServices.GetOneAsyncID<Encherir>("api/getActualPrice", Encherir.CollClasse, MonEnchere.Id.ToString());
-                    Thread.Sleep(2000);
+                    Encherir.CollClasse.Clear();
+                    Thread.Sleep(20000);
                 }
             });
         }
@@ -126,9 +141,9 @@ namespace Enchere2022.VuesModeles
                 while (true)
                 {
                     Encherir.CollClasse.Clear();
-                    MaListeSixDernieresEncheres = await _apiServices.GetAllAsyncID<Encherir>("api/getLastSixOffer", Encherir.CollClasse,"Id", MonEnchere.Id);
-                   
-                    Thread.Sleep(10000);
+                    MaListeSixDernieresEncheres = await _apiServices.GetAllAsyncID<Encherir>("api/getLastSixOffer", Encherir.CollClasse, "Id", MonEnchere.Id);
+
+                    Thread.Sleep(100000);
                 }
             });
         }
@@ -142,11 +157,26 @@ namespace Enchere2022.VuesModeles
 
                 while (tmps.TempsRestant > TimeSpan.Zero)
                 {
-                    if (PrixActuel != null && PrixActuel.Id != int.Parse(IdUser))
+                    if (tmps.TempsRestant.TotalSeconds < SaisieSecondes)
                     {
-                        float paramValeur = PrixActuel.PrixEnchere + 1;
-                        int resultat = await _apiServices.PostAsync<Encherir>(new Encherir(paramValeur, int.Parse(IdUser), MonEnchere.Id,0,""), "api/postEncherir");
+                        if (Plafond > 0)
+                        {
+                            if (PrixActuel != null && PrixActuel.Id != int.Parse(IdUser) && PrixActuel.PrixEnchere < Plafond)
+                            {
+                                float paramValeur = PrixActuel.PrixEnchere + 1;
+                                int resultat = await _apiServices.PostAsync<Encherir>(new Encherir(paramValeur, int.Parse(IdUser), MonEnchere.Id, 0, ""), "api/postEncherir");
 
+                            }
+                        }
+                        else
+                        {
+                            if (PrixActuel != null && PrixActuel.Id != int.Parse(IdUser))
+                            {
+                                float paramValeur = PrixActuel.PrixEnchere + 1;
+                                int resultat = await _apiServices.PostAsync<Encherir>(new Encherir(paramValeur, int.Parse(IdUser), MonEnchere.Id, 0, ""), "api/postEncherir");
+
+                            }
+                        }
                     }
                     Thread.Sleep(10000);
                 }
@@ -158,12 +188,21 @@ namespace Enchere2022.VuesModeles
             IdUser = await SecureStorage.GetAsync("ID");
 
 
-                if (PrixActuel != null)
-                {
-                    int resultat = await _apiServices.PostAsync<Encherir>(new Encherir(param, int.Parse(IdUser), MonEnchere.Id, 0, ""), "api/postEncherir");
+            if (PrixActuel != null)
+            {
+                int resultat = await _apiServices.PostAsync<Encherir>(new Encherir(param, int.Parse(IdUser), MonEnchere.Id, 0, ""), "api/postEncherir");
 
-                }
-            
+            }
+
+        }
+        public void GetPlafond(string param)
+        {
+            Plafond = float.Parse(param);
+        }
+        public void GetSecondes(string param)
+        {
+            SaisieSecondes = float.Parse(param);
+
         }
         #endregion
 

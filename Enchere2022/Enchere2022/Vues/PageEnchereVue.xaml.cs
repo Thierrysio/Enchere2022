@@ -25,7 +25,24 @@ namespace Enchere2022.Vues
 
         private void ButtonValiderEnchere_Clicked(object sender, EventArgs e)
         {
-            VuesModele.EncherirManuel(float.Parse(SaisieEnchere.Text));
+          if(SaisieEnchere.Text != null)  VuesModele.EncherirManuel(float.Parse(SaisieEnchere.Text));
+        }
+
+        private void SaisiePlafond_Unfocused(object sender, FocusEventArgs e)
+        {
+            if (SaisiePlafond.Text != null) VuesModele.GetPlafond(SaisiePlafond.Text);
+        }
+
+        private void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            Application.Current.MainPage = new EnchereVue();
+
+        }
+
+        private void SaisieSecondes_Unfocused(object sender, FocusEventArgs e)
+        {
+            if (SaisieSecondes.Text != null) VuesModele.GetSecondes(SaisiePlafond.Text);
+
         }
     }
 }
