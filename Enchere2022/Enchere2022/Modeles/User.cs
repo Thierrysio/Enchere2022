@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Enchere2022.Services;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace Enchere2022.Modeles
 {
@@ -16,6 +18,7 @@ namespace Enchere2022.Modeles
         private string _password;
         private string _pseudo;
         private string _photo;
+        private ImageSource _photoStream;
 
         #endregion
 
@@ -28,6 +31,9 @@ namespace Enchere2022.Modeles
             _password = password;
             _pseudo = pseudo;
             _photo = photo;
+
+            SetPhotoStream();
+
             Id = id;
         }
 
@@ -39,12 +45,24 @@ namespace Enchere2022.Modeles
         public string Pseudo { get => _pseudo; set => _pseudo = value; }
         public string Photo { get => _photo; set => _photo = value; }
         public int Id { get => _id; set => _id = value; }
+        public ImageSource PhotoStream { get => _photoStream; set => _photoStream = value; }
 
 
         #endregion
 
         #region Methodes
+        private void SetPhotoStream()
+        {
+            try
+            {
+                _photoStream = Conversion.ConvertFromBase64(this._photo);
 
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
         #endregion
     }
 }

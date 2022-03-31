@@ -1,5 +1,6 @@
 ﻿using Enchere2022.Modeles;
 using Enchere2022.Services;
+using Enchere2022.Vues;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace Enchere2022.VuesModeles
 {
@@ -25,6 +27,8 @@ namespace Enchere2022.VuesModeles
         private string _idUser;
         private float _plafond;
         private float _saisieSecondes;
+
+
         #endregion
         #region Constructeurs
 
@@ -103,23 +107,52 @@ namespace Enchere2022.VuesModeles
         }
         #endregion
         #region methodes
-        public void GetTimerRemaining(DateTime param)
+        public async void GetTimerRemaining(DateTime param)
         {
             DateTime datefin = param;
             TimeSpan interval = datefin - DateTime.Now;
 
+            var tokenSource2 = new CancellationTokenSource();
+            CancellationToken ct = tokenSource2.Token;
 
-            Task.Run(() =>
+
+            var task = Task.Run(async() =>
             {
                 tmps.Start(interval);
-                while (tmps.TempsRestant > TimeSpan.Zero)
+                while (true)
                 {
                     TempsRestantJour = tmps.TempsRestant.Days;
                     TempsRestantHeures = tmps.TempsRestant.Hours;
                     TempsRestantMinutes = tmps.TempsRestant.Minutes;
                     TempsRestantSecondes = tmps.TempsRestant.Seconds;
-                }
-            });
+
+                    if (tmps.TempsRestant <= TimeSpan.Zero)
+                    {
+                        ct.ThrowIfCancellationRequested();
+                    }
+                }       
+
+            }, tokenSource2.Token);
+
+            tokenSource2.Cancel();
+            try
+            {
+                await task;
+            }
+            catch (OperationCanceledException e)
+            {
+                SetGagnant();
+            }
+            finally
+            {
+                tokenSource2.Dispose();
+            }
+
+        }
+        public void SetGagnant()
+        {
+            Application.Current.MainPage = new GagnantVue(MonEnchere.Id.ToString());
+
         }
         public void GetValeurActuelle()
         {
@@ -131,7 +164,10 @@ namespace Enchere2022.VuesModeles
                     Encherir.CollClasse.Clear();
                     Thread.Sleep(20000);
                 }
+
             });
+
+
         }
 
         public void SixDernieresEncheres()
@@ -155,8 +191,9 @@ namespace Enchere2022.VuesModeles
             {
                 IdUser = await SecureStorage.GetAsync("ID");
 
-                while (tmps.TempsRestant > TimeSpan.Zero)
+                while (true)
                 {
+
                     if (tmps.TempsRestant.TotalSeconds < SaisieSecondes)
                     {
                         if (Plafond > 0)
@@ -178,7 +215,7 @@ namespace Enchere2022.VuesModeles
                             }
                         }
                     }
-                    Thread.Sleep(10000);
+                    Thread.Sleep(1000);
                 }
             });
         }
@@ -187,13 +224,11 @@ namespace Enchere2022.VuesModeles
         {
             IdUser = await SecureStorage.GetAsync("ID");
 
-
             if (PrixActuel != null)
             {
                 int resultat = await _apiServices.PostAsync<Encherir>(new Encherir(param, int.Parse(IdUser), MonEnchere.Id, 0, ""), "api/postEncherir");
 
             }
-
         }
         public void GetPlafond(string param)
         {

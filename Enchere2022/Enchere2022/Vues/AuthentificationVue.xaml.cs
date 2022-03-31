@@ -24,5 +24,20 @@ namespace Enchere2022.Vues
         {
             vueModele.ActionPageAuthentification();
         }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EntryEmail_Unfocused(object sender, FocusEventArgs e)
+        {
+            EntryPassword.Focus();
+        }
+
+        private void EntryPassword_Unfocused(object sender, FocusEventArgs e)
+        {
+
+        }
     }
 }

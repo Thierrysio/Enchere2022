@@ -4,120 +4,122 @@
              x:Class="Enchere2022.Vues.EnchereVue">
     <ContentPage.Content>
         <ScrollView x:Name="remote">
-            <StackLayout>
-                
-                    <Frame
-                HeightRequest="50" WidthRequest="280"
-                BackgroundColor="white" Padding="0"
+            <StackLayout BackgroundColor="White">
+                <Frame
+                HeightRequest="72" WidthRequest="280"
+                BackgroundColor="white" Padding="10"
                 HasShadow="True" Margin="10" CornerRadius="10"
                 HorizontalOptions="CenterAndExpand">
-                        <StackLayout VerticalOptions="Center">
-                            <Button x:Name="classique" Clicked="classique_Clicked"  CornerRadius="15" Text="Encheres en cours" HorizontalOptions="Center" WidthRequest="200" HeightRequest="35" Margin="0,0,0,0"/>
+                    <StackLayout VerticalOptions="Center">
+                        <Button x:Name="classique" Clicked="classique_Clicked" BackgroundColor="#1C375C" TextColor="White" CornerRadius="15" Text="Encheres Classiques en cours" Image="icons.png" HorizontalOptions="Center" WidthRequest="300" HeightRequest="72"/>
+                    </StackLayout>
 
-                        </StackLayout>
-
-                    </Frame>
-                    <Frame
-                HeightRequest="50" WidthRequest="280"
-                BackgroundColor="white" Padding="0"
-                HasShadow="True" Margin="10" CornerRadius="10"
+                </Frame>
+                <Frame
+                HeightRequest="72" WidthRequest="280"
+                BackgroundColor="white" Padding="10"
+                HasShadow="True" Margin="0" CornerRadius="10"
                 HorizontalOptions="CenterAndExpand">
-                        <StackLayout VerticalOptions="Center">
-                            <Button x:Name="inverse" Clicked="inverse_Clicked"  CornerRadius="15" Text="Encheres inversées en cours" HorizontalOptions="Center" WidthRequest="250" HeightRequest="35" Margin="0,0,0,0"/>
+                    <StackLayout VerticalOptions="Center">
+                        <Button x:Name="inverse" Clicked="inverse_Clicked" BackgroundColor="#1C375C" TextColor="White" CornerRadius="15" Text="Encheres inversées en cours" Image="icons.png" HorizontalOptions="Center" WidthRequest="300" HeightRequest="72"/>
 
-                        </StackLayout>
+                    </StackLayout>
 
-                    </Frame>
-                    <Frame
-                HeightRequest="50" WidthRequest="280"
-                BackgroundColor="white" Padding="0"
-                HasShadow="True" Margin="10" CornerRadius="10"
+                </Frame>
+                <Frame
+                HeightRequest="72" WidthRequest="280"
+                BackgroundColor="white" Padding="10"
+                HasShadow="True" Margin="10" CornerRadius="15"
                 HorizontalOptions="CenterAndExpand">
-                        <StackLayout VerticalOptions="Center">
-                            <Button x:Name="flash" Clicked="flash_Clicked" CornerRadius="15" Text="Encheres flash en cours" HorizontalOptions="Center" WidthRequest="250" HeightRequest="35" Margin="0,0,0,0"/>
+                    <StackLayout VerticalOptions="Center">
+                        <Button x:Name="flash" Clicked="flash_Clicked"  BackgroundColor="#1C375C" TextColor="White" CornerRadius="15" Text="Encheres flash en cours" Image="icons.png" HorizontalOptions="Center" WidthRequest="300" HeightRequest="72"/>
 
-                        </StackLayout>
+                    </StackLayout>
 
-                    </Frame>
-                <StackLayout VerticalOptions="Start" Padding="0,20,0,0">
+                </Frame>
+                <StackLayout VerticalOptions="Start" Padding="30,10,10,0">
                     <CollectionView IsVisible="{Binding VisibleEnchereEnCoursTypeClassique}" ItemsSource="{Binding MaListeEncheresEnCoursTypeClassique}"  SelectionChanged="CollectionView_SelectionChanged_1"  SelectionMode="Single" BackgroundColor="White">
                         <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Padding="10" Margin="10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="2*" />
-                                    <RowDefinition Height="1.5*" />
-                                    <RowDefinition Height="1*" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                </Grid.ColumnDefinitions>
-                                <Image Source="{Binding LeProduit.Photo}" Aspect="Fill" Grid.RowSpan="2" HeightRequest="100" Grid.Column="0"/>
-                                <Label Text="{Binding LeProduit.Nom}" Grid.Row="1" Grid.Column="1" TextColor="Black" />
-                                <BoxView Grid.Row="2" HorizontalOptions="FillAndExpand" Grid.ColumnSpan="3"
+                            <DataTemplate>
+                                <Grid Padding="10" Margin="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2*" />
+                                        <RowDefinition Height="1.5*" />
+                                        <RowDefinition Height="1*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{Binding LeProduit.Photo}" Aspect="Fill" Grid.RowSpan="2" HeightRequest="100" Grid.Column="0"/>
+                                    <Label Text="{Binding LeProduit.Nom}" Grid.Row="1" Grid.Column="1" TextColor="Black" />
+                                    <BoxView Grid.Row="2" HorizontalOptions="FillAndExpand" Grid.ColumnSpan="3"
                                          VerticalOptions="Center" HeightRequest="3" BackgroundColor="DarkGray" />
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </StackLayout>
-                <StackLayout VerticalOptions="Start" Padding="0,0,0,0">
- 
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+                <StackLayout VerticalOptions="Start" Padding="30,0,10,0">
+
                     <CollectionView IsVisible="{Binding VisibleEnchereEnCoursTypeInverse}" ItemsSource="{Binding MaListeEncheresEnCoursTypeInverse}" SelectionChanged="CollectionView_SelectionChanged_1" SelectionMode="Single" BackgroundColor="White">
 
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Padding="10" Margin="10" >
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="2*" />
-                                    <RowDefinition Height="1.5*" />
-                                    <RowDefinition Height="1*" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                </Grid.ColumnDefinitions>
-                                <Image Source="{Binding LeProduit.Photo}" Aspect="Fill" Grid.RowSpan="2" HeightRequest="100" Grid.Column="0"/>
-                                <Label Text="{Binding LeProduit.Nom}" Grid.Row="1" Grid.Column="1" TextColor="Black" />
-                                <BoxView Grid.Row="2" HorizontalOptions="FillAndExpand" Grid.ColumnSpan="3"
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="10" Margin="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2*" />
+                                        <RowDefinition Height="1.5*" />
+                                        <RowDefinition Height="1*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{Binding LeProduit.Photo}" Aspect="Fill" Grid.RowSpan="2" HeightRequest="100" Grid.Column="0"/>
+                                    <Label Text="{Binding LeProduit.Nom}" Grid.Row="1" Grid.Column="1" TextColor="Black" />
+                                    <BoxView Grid.Row="2" HorizontalOptions="FillAndExpand" Grid.ColumnSpan="3"
                                          VerticalOptions="Center" HeightRequest="3" BackgroundColor="DarkGray" />
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
 
-            </StackLayout>
-                <StackLayout VerticalOptions="Fill"  Padding="0,0,0,0">
-                    
+                </StackLayout>
+                <StackLayout VerticalOptions="Start" Padding="30,0,10,0">
                     <CollectionView IsVisible="{Binding VisibleEnchereEnCoursTypeFlash}" ItemsSource="{Binding MaListeEncheresEnCoursTypeFlash}"  SelectionChanged="CollectionView_SelectionChanged_1" SelectionMode="Single" BackgroundColor="White">
 
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Padding="10" Margin="10" >
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="2*" />
-                                    <RowDefinition Height="1.5*" />
-                                    <RowDefinition Height="1*" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*" />
-                                    <ColumnDefinition Width="2*" />
-                                </Grid.ColumnDefinitions>
-                                <Image Source="{Binding LeProduit.Photo}" Aspect="Fill" Grid.RowSpan="2" HeightRequest="100" Grid.Column="0"/>
-                                <Label Text="{Binding LeProduit.Nom}" Grid.Row="1" Grid.Column="1" TextColor="Black" />
-                                <BoxView Grid.Row="2" HorizontalOptions="FillAndExpand" Grid.ColumnSpan="3"
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="10" Margin="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2*" />
+                                        <RowDefinition Height="1.5*" />
+                                        <RowDefinition Height="1*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{Binding LeProduit.Photo}" Aspect="Fill" Grid.RowSpan="2" HeightRequest="100" Grid.Column="0"/>
+                                    <Label Text="{Binding LeProduit.Nom}" Grid.Row="1" Grid.Column="1" TextColor="Black" />
+                                    <BoxView Grid.Row="2" HorizontalOptions="FillAndExpand" Grid.ColumnSpan="3"
                                          VerticalOptions="Center" HeightRequest="3" BackgroundColor="DarkGray" />
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+                <Frame
+                    HeightRequest="80" WidthRequest="280"
+                BackgroundColor="white" Padding="10"
+                HasShadow="True" Margin="40" CornerRadius="15"
+                HorizontalOptions="CenterAndExpand">
+                    <StackLayout VerticalOptions="Center">
+                        <Button Text="remonte" Image="remonte.png" BackgroundColor="#1C375C" TextColor="White" CornerRadius="15" Clicked="Button_Clicked" HorizontalOptions="Center" WidthRequest="280" HeightRequest="80"></Button>
+                    </StackLayout>
+                </Frame>
             </StackLayout>
-            <StackLayout>
-                <Button Text="remonte" Clicked="Button_Clicked"></Button>
-            </StackLayout>
-            </StackLayout>
-
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

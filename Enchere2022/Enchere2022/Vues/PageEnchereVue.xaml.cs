@@ -41,8 +41,13 @@ namespace Enchere2022.Vues
 
         private void SaisieSecondes_Unfocused(object sender, FocusEventArgs e)
         {
-            if (SaisieSecondes.Text != null) VuesModele.GetSecondes(SaisiePlafond.Text);
+            if (SaisieSecondes.Text != null) VuesModele.GetSecondes(SaisieSecondes.Text);
 
+        }
+
+        private async void Remonte_Clicked(object sender, EventArgs e)
+        {
+            await remote.ScrollToAsync(0, 0, true);
         }
     }
 }

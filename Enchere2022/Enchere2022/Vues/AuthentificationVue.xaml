@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Enchere2022.Vues.AuthentificationVue">
+             x:Class="Enchere2022.Vues.AuthentificationVue"
+             BackgroundColor="#1C375C">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
             <OnPlatform.iOS>
@@ -13,33 +14,34 @@
         </OnPlatform>
     </ContentPage.Padding>
     <ContentPage.Content>
-        <Grid BackgroundColor="White">
-
-            <StackLayout Padding="40" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
-                <Image Source="Logo.png" WidthRequest="180" HeightRequest="180"></Image>
-
-                <Label Text="Page de connexion" Margin="20" FontSize="20" HorizontalTextAlignment="Center" TextColor="black"/>
-
-            </StackLayout>
-
-            <Grid Grid.Row="1" Margin="30,0,20,0">
-
-
-                <Image Source="encheres.jpg" HeightRequest="110" VerticalOptions="EndAndExpand"/>
-                <Entry Grid.Row="1" Placeholder="Email" Margin="5,0,0,0" TextColor="Black" Text="{Binding Email}" PlaceholderColor="gray" FontSize="16"/>
-                <Entry Grid.Row="2" Placeholder="Mot de passe" Margin="5,0,0,0" TextColor="Black" Text="{Binding Password}" PlaceholderColor="Gray" FontSize="16"/>
-
-            </Grid>
-            <StackLayout Grid.Row="2" BackgroundColor="White">
-                <Grid Grid.Row="5" Margin="20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="authentification" Clicked="authentification_Clicked"  Text="Se connecter" BackgroundColor="#0080FF" TextColor="White" Margin="0,0,20,0" Grid.Column="2" />
+        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Margin="0,30" Source="logo.png" Aspect="AspectFit" HeightRequest="140" WidthRequest="80"></Image>
+            <Frame Grid.Row="1" Margin="0,0,0,-40" BorderColor="#1C375C" HasShadow="True"  CornerRadius="50" HeightRequest="700">
+                <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="20" Padding="20,50,20,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0"  Text="Bienvenue aux enchères SIO!" FontSize="24" FontAttributes="Bold" TextColor="#1C375C" Margin="0,-20,0,0"  HorizontalTextAlignment="Center"></Label>
+                    <Label Grid.Row="1" Margin="0,-10,0,0" Text="Connectez-vous a votre compte" TextColor="#1C375C"  HorizontalOptions="CenterAndExpand"></Label>
+                    <Entry x:Name="EntryEmail" Unfocused="EntryEmail_Unfocused" Grid.Row="2" Placeholder="Adresse mail" Text="{Binding Email}" PlaceholderColor="Black" TextColor="Black" Margin="0,10,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"></Entry>
+                    <Entry x:Name="EntryPassword" Unfocused="EntryPassword_Unfocused" Grid.Row="3" Placeholder="Mot de passe" Text="{Binding Password}" PlaceholderColor="Black" TextColor="Black" IsPassword="True" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"></Entry>
+                    <Button x:Name="authentification" Clicked="authentification_Clicked"  Grid.Row="4" Text="Se connecter" BackgroundColor="#1C375C" TextColor="White" CornerRadius="20"></Button>
+                    <Label Grid.Row="5" Text="Vous n'avez pas de compte? Inscrivez-vous ici" TextColor="Black" Margin="0,20,0,0"  HorizontalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
                 </Grid>
-            </StackLayout>
+            </Frame>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
