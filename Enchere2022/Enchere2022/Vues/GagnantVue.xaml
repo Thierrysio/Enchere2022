@@ -4,6 +4,8 @@
              x:Class="Enchere2022.Vues.GagnantVue">
     <ContentPage.Content>
         <StackLayout>
+            <ImageButton x:Name="GoBack" Clicked="GoBack_Clicked"  Source="img_490217.png" BackgroundColor="White" HeightRequest="30" WidthRequest="30" Margin="40,10,0,0" Padding="0,0,0,0" HorizontalOptions="Start"></ImageButton>
+
             <Image Source="{Binding UnUser.PhotoStream}"></Image>
             <Label Text="{Binding UnUser.Pseudo}"
                 

@@ -1,4 +1,5 @@
 ﻿using Enchere2022.Modeles;
+using Enchere2022.Services;
 using Enchere2022.VuesModeles;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,20 @@ namespace Enchere2022.Vues
         private void CollectionView_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
             var current = (Enchere)e.CurrentSelection.FirstOrDefault();
-            Application.Current.MainPage = new PageEnchereVue(current);
+            DecompteTimer tmps2 = new DecompteTimer();
+            TimeSpan interval = current.Datefin - DateTime.Now;
+            tmps2.Start(interval);
+
+            if (tmps2.TempsRestant <= TimeSpan.Zero)
+            {
+                tmps2.Stop();
+                Application.Current.MainPage = new GagnantVue(current.Id.ToString());
+
+            }
+            else
+            {
+                Application.Current.MainPage = new PageEnchereVue(current);
+            }
         }
 
         private void classique_Clicked(object sender, EventArgs e)
@@ -53,6 +67,17 @@ namespace Enchere2022.Vues
         private async void Button_Clicked(object sender, EventArgs e)
         {
             await remote.ScrollToAsync(0, 0, true);
+
+        }
+
+        private void collViewInverse_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var current = (Enchere)e.CurrentSelection.FirstOrDefault();
+            Application.Current.MainPage = new PageEnchereInverseVue(current);
+        }
+
+        private void collViewFlash_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
         }
     }

@@ -25,7 +25,7 @@ namespace Enchere2022.Vues
 
         private void ButtonValiderEnchere_Clicked(object sender, EventArgs e)
         {
-          if(SaisieEnchere.Text != null)  VuesModele.EncherirManuel(float.Parse(SaisieEnchere.Text));
+            if (SaisieEnchere.Text != null) VuesModele.EncherirManuel(float.Parse(SaisieEnchere.Text));
         }
 
         private void SaisiePlafond_Unfocused(object sender, FocusEventArgs e)
@@ -35,7 +35,9 @@ namespace Enchere2022.Vues
 
         private void ImageButton_Clicked(object sender, EventArgs e)
         {
+
             Application.Current.MainPage = new EnchereVue();
+
 
         }
 
@@ -48,6 +50,22 @@ namespace Enchere2022.Vues
         private async void Remonte_Clicked(object sender, EventArgs e)
         {
             await remote.ScrollToAsync(0, 0, true);
+        }
+
+        private void GoBack_Clicked(object sender, EventArgs e)
+        {
+            Application.Current.MainPage = new EnchereVue();
+
+        }
+
+        protected override void OnDisappearing()
+
+        {
+            VuesModele.OnCancel = true;
+            // Replace with your code…
+
+            base.OnDisappearing();
+
         }
     }
 }

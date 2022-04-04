@@ -1,18 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:converters="clr-namespace:Enchere2022.Controles.Converters"
-             xmlns:local="clr-namespace:Enchere2022"
-             x:Class="Enchere2022.Vues.PageEnchereVue">
-    <ContentPage.Resources>
-        <converters:IndexToColorConverter x:Key="IndexToColorConverterGrid"
-                                          EvenColor="Silver"
-                                          OddColor="White"/>
-
-        <converters:IndexToColorConverter x:Key="IndexToColorConverterText"
-                                          EvenColor="White"
-                                          OddColor="Black"/>
-    </ContentPage.Resources>
+             x:Class="Enchere2022.Vues.PageEnchereInverseVue">
     <ContentPage.Content>
         <ScrollView x:Name="remote">
 
@@ -39,9 +28,7 @@
                     </StackLayout>
 
                 </Frame>
-                <Label Text="{Binding MonEnchere.PrixReserve,  StringFormat='Prix de Réserve : {0}'}" TextColor="Black"
-                HorizontalOptions="CenterAndExpand" />
-                <Label Text="{Binding MonEnchere.Datedebut, StringFormat='Date Début: {0}'}"
+                 <Label Text="{Binding MonEnchere.Datedebut, StringFormat='Date Début: {0}'}"
                 TextColor="Black"
                 HorizontalOptions="CenterAndExpand" />
                 <ContentView>
@@ -76,24 +63,13 @@
                         </Grid>
                     </Frame>
                 </ContentView>
-                <ContentView  IsVisible="{Binding VisibleGagnant}">
-                    <Frame HasShadow="True" CornerRadius="15" Margin="20" Padding="10" HeightRequest="200" BackgroundColor="#D8D8D8">
-                        <Grid RowDefinitions="30,60,100" ColumnDefinitions="*" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-
-
-                            <Label  Grid.Row=" 0" Grid.Column="0" Text="Le gagnant est :" HorizontalOptions="CenterAndExpand"  FontSize="22" TextColor="Black"/>
-                            <Label  Grid.Row=" 1" Grid.Column="0" Text="{Binding UnUser.Pseudo}" HorizontalOptions="Center"  FontSize="40" TextColor="Black" FontAttributes="Bold,Italic"/>
-                            <Image  Grid.Row=" 2" HeightRequest="300" WidthRequest="300" HorizontalOptions="Center" Source="{Binding UnUser.PhotoStream}"></Image>
-                        </Grid>
-                    </Frame>
-                </ContentView>
                 <ContentView>
                     <Frame HasShadow="True" CornerRadius="15" Margin="20" Padding="10" HeightRequest="120" BackgroundColor="#D8D8D8">
                         <Grid RowDefinitions="2*,2*" ColumnDefinitions="180,100" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
 
-                            <Label  Grid.Row=" 0" Grid.Column="0" Text="Votre plafond :" HorizontalOptions="StartAndExpand"  FontSize="22" TextColor="Black"/>
-                            <Entry x:Name="SaisiePlafond" Unfocused="SaisiePlafond_Unfocused"  Grid.Row=" 1" Grid.Column="0" HorizontalOptions="StartAndExpand" Placeholder="Saisir les secondes" PlaceholderColor="Black" TextColor="Black"/>
+                            <Label  Grid.Row=" 0" Grid.Column="0" Text="Votre offre auto :" HorizontalOptions="StartAndExpand"  FontSize="22" TextColor="Black"/>
+                            <Entry x:Name="SaisiePlafond" Unfocused="SaisiePlafond_Unfocused"  Grid.Row=" 1" Grid.Column="0" HorizontalOptions="StartAndExpand" Placeholder="Saisir le montant" PlaceholderColor="Black" TextColor="Black"/>
                         </Grid>
                     </Frame>
                 </ContentView>
@@ -116,56 +92,11 @@
                             <Label Grid.Row=" 0" Grid.Column="1" Text="{Binding PrixActuel.PrixEnchere, StringFormat='{0} €'}" FontSize="25" FontAttributes="Bold" TextColor="Black" HorizontalOptions="End"/>
 
                             <Entry x:Name="SaisieEnchere" Grid.Row=" 1" Grid.Column="0" HorizontalOptions="StartAndExpand" Placeholder="Saisir enchere" PlaceholderColor="Black" TextColor="Black"/>
-                            <Button x:Name="ButtonValiderEnchere" HorizontalOptions="StartAndExpand" Clicked="ButtonValiderEnchere_Clicked" BackgroundColor="#BDBDBD " Image="send_.png" Grid.Row="1" Grid.Column="1"/>
+                            <Button x:Name="ButtonValiderEnchere" HorizontalOptions="StartAndExpand" Clicked="ButtonValiderEnchere_Clicked"  BackgroundColor="#BDBDBD " Image="send_.png" Grid.Row="1" Grid.Column="1"/>
                         </Grid>
                     </Frame>
                 </ContentView>
-                <StackLayout>
-                    <Label Text="Les 6 dernièrs enchères"
-                      FontAttributes="Bold"
-                       TextDecorations="Underline"
-                       FontSize="20"
-                       Margin="20"
-                       HorizontalOptions="Center"
-                       TextColor="Black"/>
-                </StackLayout>
-                <StackLayout BackgroundColor="white" VerticalOptions="StartAndExpand" HeightRequest="300">
-                <ListView x:Name="MyCollectionView" ItemsSource="{Binding MaListeSixDernieresEncheres}" SeparatorVisibility="None" Grid.Row="3" Margin="20,0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Frame BackgroundColor="White" BorderColor="#F0F0F0" Padding="5" Margin="5,0,5,5">
-                                    <Grid HeightRequest="50" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="40"/>
-                                            <ColumnDefinition Width="80"/>
-                                            <ColumnDefinition Width="180"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image  Grid.Column="0"  Source="icons.png"/>
-                                        <Label Text="{Binding Pseudo}" Grid.Column="1" TextColor="Black" FontSize="15" WidthRequest="100"  HeightRequest="800" VerticalOptions="Center" HorizontalOptions="Start" />
-                                        <StackLayout Grid.Column="2" Orientation="Horizontal" Margin="20,0" HorizontalOptions="End" VerticalOptions="Center">
-                                            <Label Text="{Binding PrixEnchere}" TextColor="Black" FontSize="20" FontAttributes="Bold" VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand"/>
-                                            <Label Text="€" TextColor="Black" FontSize="20" VerticalOptions="Center"/>
-                                        </StackLayout>
-                                    </Grid>
-                                </Frame>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                </StackLayout>
-                <StackLayout>
-                <Frame
-                    HeightRequest="80" WidthRequest="280"
-                    BackgroundColor="white" Padding="10"
-                    HasShadow="True" Margin="40" CornerRadius="15"
-                    HorizontalOptions="CenterAndExpand">
-                    <StackLayout VerticalOptions="Center">
-                        <Button x:Name="Remonte" Clicked="Remonte_Clicked"  Text="remonte" Image="remonte.png" CornerRadius="15" VerticalOptions="Start" HorizontalOptions="Center" WidthRequest="280" HeightRequest="80"></Button>
-                    </StackLayout>
-                
-                </Frame>
-                </StackLayout>
+               
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

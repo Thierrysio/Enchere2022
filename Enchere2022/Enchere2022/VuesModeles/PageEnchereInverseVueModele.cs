@@ -12,11 +12,11 @@ using Xamarin.Forms;
 
 namespace Enchere2022.VuesModeles
 {
-    class PageEnchereVueModele : BaseVueModele
+    class PageEnchereInverseVueModele :BaseVueModele
     {
         #region attributs
         private readonly Api _apiServices = new Api();
-        public DecompteTimer tmps;
+        private DecompteTimer tmps;
         private Enchere _monEnchere;
         private int _tempsRestantJour;
         private int _tempsRestantHeures;
@@ -27,43 +27,22 @@ namespace Enchere2022.VuesModeles
         private string _idUser;
         private float _plafond;
         private float _saisieSecondes;
-        private User _unUser;
-        private bool _visibleGagnant;
-        public bool OnCancel = false;
+
 
         #endregion
         #region Constructeurs
 
-        public PageEnchereVueModele(Enchere param)
+        public PageEnchereInverseVueModele(Enchere param)
         {
-            
             _monEnchere = param;
-            tmps = new DecompteTimer();
-            DateTime datefin = param.Datefin;
-            TimeSpan interval = datefin - DateTime.Now;
-            tmps.Start(interval);
 
-            
-            this.GetTimerRemaining();
+            tmps = new DecompteTimer();
+            this.GetTimerRemaining(param.Datefin);
             this.GetValeurActuelle();
             this.SetEnchereAuto();
-            this.SixDernieresEncheres();
-            this.GetGagnant(MonEnchere.Id.ToString());
         }
         #endregion
         #region Getters/Setters
-
-        public User UnUser
-        {
-            get
-            {
-                return _unUser;
-            }
-            set
-            {
-                SetProperty(ref _unUser, value);
-            }
-        }
 
         public Enchere MonEnchere
         {
@@ -108,11 +87,6 @@ namespace Enchere2022.VuesModeles
             get => _idUser;
             set => _idUser = value;
         }
-        public ObservableCollection<Encherir> MaListeSixDernieresEncheres
-        {
-            get => _maListeSixDernieresEncheres;
-            set { SetProperty(ref _maListeSixDernieresEncheres, value); }
-        }
 
         public float Plafond
         {
@@ -125,52 +99,44 @@ namespace Enchere2022.VuesModeles
             get => _saisieSecondes;
             set { SetProperty(ref _saisieSecondes, value); }
         }
-        public bool VisibleGagnant
-        { 
-             get => _visibleGagnant;
-            set
-            {
-                SetProperty(ref _visibleGagnant, value);
-            }
-        }
-    #endregion
-    #region methodes
-    public   void GetTimerRemaining()
+        #endregion
+        #region methodes
+        public  void GetTimerRemaining(DateTime param)
         {
-           
+            DateTime datefin = param;
+            TimeSpan interval = datefin - DateTime.Now;
 
 
+            var task = Task.Run( () =>
+            {
+                tmps.Start(interval);
+                while (true)
+                {
+                    TempsRestantJour = tmps.TempsRestant.Days;
+                    TempsRestantHeures = tmps.TempsRestant.Hours;
+                    TempsRestantMinutes = tmps.TempsRestant.Minutes;
+                    TempsRestantSecondes = tmps.TempsRestant.Seconds;
 
-           Task.Run(async() =>
-                        {
+                }
 
-                            while (OnCancel==false)
-                            {
-                                TempsRestantJour = tmps.TempsRestant.Days;
-                                TempsRestantHeures = tmps.TempsRestant.Hours;
-                                TempsRestantMinutes = tmps.TempsRestant.Minutes;
-                                TempsRestantSecondes = tmps.TempsRestant.Seconds;
-
-                                if (tmps.TempsRestant <= TimeSpan.Zero)
-                                {
-                                    OnCancel = true;
-                                }
-                            }
-
-                        });
+            });
 
 
         }
+        public void SetGagnant()
+        {
+            Application.Current.MainPage = new GagnantVue(MonEnchere.Id.ToString());
 
+        }
         public void GetValeurActuelle()
         {
             Task.Run(async () =>
             {
-                while (OnCancel == false)
+                while (true)
                 {
                     PrixActuel = await _apiServices.GetOneAsyncID<Encherir>("api/getActualPrice", Encherir.CollClasse, MonEnchere.Id.ToString());
                     Encherir.CollClasse.Clear();
-                    Thread.Sleep(2000);
+                    Thread.Sleep(20000);
                 }
 
             });
@@ -178,19 +144,6 @@ namespace Enchere2022.VuesModeles
 
         }
 
-        public void SixDernieresEncheres()
-        {
-            Task.Run(async () =>
-            {
-                while (OnCancel == false)
-                {
-                    Encherir.CollClasse.Clear();
-                    MaListeSixDernieresEncheres = await _apiServices.GetAllAsyncID<Encherir>("api/getLastSixOffer", Encherir.CollClasse, "Id", MonEnchere.Id);
-
-                    Thread.Sleep(2000);
-                }
-            });
-        }
 
         public void SetEnchereAuto()
         {
@@ -199,7 +152,7 @@ namespace Enchere2022.VuesModeles
             {
                 IdUser = await SecureStorage.GetAsync("ID");
 
-                while (OnCancel == false)
+                while (true)
                 {
 
                     if (tmps.TempsRestant.TotalSeconds < SaisieSecondes)
@@ -245,25 +198,6 @@ namespace Enchere2022.VuesModeles
         public void GetSecondes(string param)
         {
             SaisieSecondes = float.Parse(param);
-
-        }
-        public void GetGagnant(string param)
-        {
-            bool fin = false;
-            Task.Run(async () =>
-            {
-                while (fin == false)
-                {
-                    if(tmps.TempsRestant <= TimeSpan.Zero)  UnUser = await _apiServices.GetOneAsyncID<User>("api/getGagnant", User.CollClasse, param);
-                    if (UnUser != null)
-                    {
-                        User.CollClasse.Clear();
-                        VisibleGagnant = true;
-                        fin = true;
-                    }
-                }
-            });
-
 
         }
         #endregion

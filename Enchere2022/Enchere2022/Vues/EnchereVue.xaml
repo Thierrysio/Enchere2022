@@ -38,7 +38,7 @@
 
                 </Frame>
                 <StackLayout VerticalOptions="Start" Padding="30,10,10,0">
-                    <CollectionView IsVisible="{Binding VisibleEnchereEnCoursTypeClassique}" ItemsSource="{Binding MaListeEncheresEnCoursTypeClassique}"  SelectionChanged="CollectionView_SelectionChanged_1"  SelectionMode="Single" BackgroundColor="White">
+                    <CollectionView x:Name="collViewClassique" IsVisible="{Binding VisibleEnchereEnCoursTypeClassique}" ItemsSource="{Binding MaListeEncheresEnCoursTypeClassique}"  SelectionChanged="CollectionView_SelectionChanged_1"  SelectionMode="Single" BackgroundColor="White">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Grid Padding="10" Margin="10">
@@ -62,7 +62,7 @@
                 </StackLayout>
                 <StackLayout VerticalOptions="Start" Padding="30,0,10,0">
 
-                    <CollectionView IsVisible="{Binding VisibleEnchereEnCoursTypeInverse}" ItemsSource="{Binding MaListeEncheresEnCoursTypeInverse}" SelectionChanged="CollectionView_SelectionChanged_1" SelectionMode="Single" BackgroundColor="White">
+                    <CollectionView x:Name="collViewInverse" IsVisible="{Binding VisibleEnchereEnCoursTypeInverse}" ItemsSource="{Binding MaListeEncheresEnCoursTypeInverse}" SelectionChanged="collViewInverse_SelectionChanged"  SelectionMode="Single" BackgroundColor="White">
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
@@ -87,7 +87,7 @@
 
                 </StackLayout>
                 <StackLayout VerticalOptions="Start" Padding="30,0,10,0">
-                    <CollectionView IsVisible="{Binding VisibleEnchereEnCoursTypeFlash}" ItemsSource="{Binding MaListeEncheresEnCoursTypeFlash}"  SelectionChanged="CollectionView_SelectionChanged_1" SelectionMode="Single" BackgroundColor="White">
+                    <CollectionView x:Name="collViewFlash" IsVisible="{Binding VisibleEnchereEnCoursTypeFlash}" ItemsSource="{Binding MaListeEncheresEnCoursTypeFlash}"  SelectionChanged="collViewFlash_SelectionChanged"  SelectionMode="Single" BackgroundColor="White">
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate>

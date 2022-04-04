@@ -19,5 +19,11 @@ namespace Enchere2022.Vues
             InitializeComponent();
             BindingContext = VueModele = new GagnantVueModele(param);
         }
+
+        private void GoBack_Clicked(object sender, EventArgs e)
+        {
+            Application.Current.MainPage = new EnchereVue();
+
+        }
     }
 }

@@ -47,6 +47,8 @@ namespace Enchere2022.Modeles
 
         #region Methodes
 
+
+
         #endregion
     }
 }

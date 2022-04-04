@@ -24,7 +24,10 @@ namespace Enchere2022.VuesModeles
         #region Constructeur
         public EnchereVueModele()
         {
-            //GetListeEncheres();
+            VisibleEnchereEnCoursTypeClassique = true;
+            VisibleEnchereEnCoursTypeInverse = false;
+            VisibleEnchereEnCoursTypeFlash = false;
+
             GetListeEnCheresEnCoursTypeClassique(1);
             GetListeEncheresEnCoursTypeInverse(2);
             GetListeEncheresEnCoursTypeFlash(3);
