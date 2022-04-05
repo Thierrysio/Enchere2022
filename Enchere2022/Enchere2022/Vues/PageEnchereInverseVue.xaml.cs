@@ -21,23 +21,21 @@ namespace Enchere2022.Vues
             BindingContext = VueModele = new PageEnchereInverseVueModele(param);
         }
 
+        protected override void OnAppearing()
+
+        {
+            
+            base.OnAppearing();
+
+        }
+
         private void GoBack_Clicked(object sender, EventArgs e)
         {
             Application.Current.MainPage = new EnchereVue();
 
         }
 
-        private void SaisiePlafond_Unfocused(object sender, FocusEventArgs e)
-        {
-            if (SaisiePlafond.Text != null) VueModele.GetPlafond(SaisiePlafond.Text);
 
-        }
-
-        private void SaisieSecondes_Unfocused(object sender, FocusEventArgs e)
-        {
-            if (SaisieSecondes.Text != null) VueModele.GetSecondes(SaisieSecondes.Text);
-
-        }
 
         private void ButtonValiderEnchere_Clicked(object sender, EventArgs e)
         {

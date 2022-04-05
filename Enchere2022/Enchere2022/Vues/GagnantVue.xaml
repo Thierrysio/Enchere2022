@@ -11,6 +11,8 @@
                 
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+
+            <Label IsVisible="{Binding VisibleEtatGagnant}" Text="pas de gagnant"></Label>
            
         </StackLayout>
        

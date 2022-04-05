@@ -12,6 +12,7 @@ using Xamarin.Forms;
 
 namespace Enchere2022.VuesModeles
 {
+   
     class PageEnchereInverseVueModele :BaseVueModele
     {
         #region attributs
@@ -25,45 +26,60 @@ namespace Enchere2022.VuesModeles
         private ObservableCollection<Encherir> _maListeSixDernieresEncheres;
         private Encherir _prixActuel;
         private string _idUser;
+        private User _unUser;
         private float _plafond;
         private float _saisieSecondes;
-
-
+        public bool OnCancel;
+        private bool _visibleSaisieEnchere;
+        private bool _visibleGagnant;
+        TimeSpan interval;
         #endregion
         #region Constructeurs
 
         public PageEnchereInverseVueModele(Enchere param)
         {
             _monEnchere = param;
-
+            DateTime datefin = param.Datefin;
+             interval = datefin - DateTime.Now;
+            this.VisibleSaisieEnchere = true;
             tmps = new DecompteTimer();
             this.GetTimerRemaining(param.Datefin);
-            this.GetValeurActuelle();
-            this.SetEnchereAuto();
+            this.GetGagnant(MonEnchere.Id.ToString());
+
+
         }
         #endregion
         #region Getters/Setters
-
-        public Enchere MonEnchere
+        public User UnUser
         {
             get
             {
-                return _monEnchere;
+                return _unUser;
             }
             set
             {
-                SetProperty(ref _monEnchere, value);
+                SetProperty(ref _unUser, value);
             }
+        }
+        public bool VisibleSaisieEnchere
+        {
+            get { return _visibleSaisieEnchere; }
+            set { SetProperty(ref _visibleSaisieEnchere, value); }
+        }
+        public Enchere MonEnchere
+        {
+            get { return _monEnchere;}
+            set { SetProperty(ref _monEnchere, value);}
         }
         public int TempsRestantHeures
         {
             get { return _tempsRestantHeures; }
-            set { SetProperty(ref _tempsRestantHeures, value); }
+            set { SetProperty(ref _tempsRestantHeures, value);}
         }
         public int TempsRestantJour
         {
             get { return _tempsRestantJour; }
-            set { SetProperty(ref _tempsRestantJour, value); }
+            set { SetProperty(ref _tempsRestantJour, value);}
         }
         public int TempsRestantMinutes
         {
@@ -81,7 +97,11 @@ namespace Enchere2022.VuesModeles
             get { return _prixActuel; }
             set { SetProperty(ref _prixActuel, value); }
         }
-
+        public bool VisibleGagnant
+        {
+            get { return _visibleGagnant; }
+            set { SetProperty(ref _visibleGagnant, value); }
+        }
         public string IdUser
         {
             get => _idUser;
@@ -103,14 +123,18 @@ namespace Enchere2022.VuesModeles
         #region methodes
         public  void GetTimerRemaining(DateTime param)
         {
-            DateTime datefin = param;
-            TimeSpan interval = datefin - DateTime.Now;
+           
 
-
+            if (interval < TimeSpan.Zero)
+            {
+                OnCancel = true;
+                interval = TimeSpan.Zero;
+                VisibleSaisieEnchere = false;
+            }
             var task = Task.Run( () =>
             {
                 tmps.Start(interval);
-                while (true)
+                while (OnCancel==false|| tmps.TempsRestant>TimeSpan.Zero )
                 {
                     TempsRestantJour = tmps.TempsRestant.Days;
                     TempsRestantHeures = tmps.TempsRestant.Hours;
@@ -123,84 +147,39 @@ namespace Enchere2022.VuesModeles
 
 
         }
-        public void SetGagnant()
+        public void GetGagnant(string param)
         {
-            Application.Current.MainPage = new GagnantVue(MonEnchere.Id.ToString());
-
-        }
-        public void GetValeurActuelle()
-        {
+            bool fin = false;
             Task.Run(async () =>
             {
-                while (true)
+                while (fin == false)
                 {
-                    PrixActuel = await _apiServices.GetOneAsyncID<Encherir>("api/getActualPrice", Encherir.CollClasse, MonEnchere.Id.ToString());
-                    Encherir.CollClasse.Clear();
-                    Thread.Sleep(20000);
-                }
-
-            });
-
-
-        }
-
-
-        public void SetEnchereAuto()
-        {
-
-            Task.Run(async () =>
-            {
-                IdUser = await SecureStorage.GetAsync("ID");
-
-                while (true)
-                {
-
-                    if (tmps.TempsRestant.TotalSeconds < SaisieSecondes)
+                    if (tmps.TempsRestant <= TimeSpan.Zero) UnUser = await _apiServices.GetOneAsyncID<User>("api/getGagnant", User.CollClasse, param);
+                    if (UnUser != null)
                     {
-                        if (Plafond > 0)
-                        {
-                            if (PrixActuel != null && PrixActuel.Id != int.Parse(IdUser) && PrixActuel.PrixEnchere < Plafond)
-                            {
-                                float paramValeur = PrixActuel.PrixEnchere + 1;
-                                int resultat = await _apiServices.PostAsync<Encherir>(new Encherir(paramValeur, int.Parse(IdUser), MonEnchere.Id, 0, ""), "api/postEncherir");
-
-                            }
-                        }
-                        else
-                        {
-                            if (PrixActuel != null && PrixActuel.Id != int.Parse(IdUser))
-                            {
-                                float paramValeur = PrixActuel.PrixEnchere + 1;
-                                int resultat = await _apiServices.PostAsync<Encherir>(new Encherir(paramValeur, int.Parse(IdUser), MonEnchere.Id, 0, ""), "api/postEncherir");
-
-                            }
-                        }
+                        User.CollClasse.Clear();
+                        VisibleGagnant = true;
+                        fin = true;
                     }
-                    Thread.Sleep(1000);
                 }
             });
+
+
         }
+
+
+
+  
 
         public async void EncherirManuel(float param)
         {
+
             IdUser = await SecureStorage.GetAsync("ID");
-
-            if (PrixActuel != null)
-            {
-                int resultat = await _apiServices.PostAsync<Encherir>(new Encherir(param, int.Parse(IdUser), MonEnchere.Id, 0, ""), "api/postEncherir");
-
-            }
+            int resultat = await _apiServices.PostAsync<Encherir>(new Encherir(param, int.Parse(IdUser), MonEnchere.Id, 0, ""), "api/postEncherirInverse");
+            tmps.TempsRestant = TimeSpan.Zero;
+            VisibleSaisieEnchere = false;
         }
-        public void GetPlafond(string param)
-        {
-            Plafond = float.Parse(param);
-        }
-        public void GetSecondes(string param)
-        {
-            SaisieSecondes = float.Parse(param);
 
-        }
         #endregion
-
-    }
+            }
 }

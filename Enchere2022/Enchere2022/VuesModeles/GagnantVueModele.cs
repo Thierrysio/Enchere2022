@@ -12,7 +12,7 @@ namespace Enchere2022.VuesModeles
         #region Attributs
         private readonly Api _apiServices = new Api();
         User _unUser;
-
+        bool _visibleEtatGagnant = false;
         #endregion
 
         #region Constructeurs
@@ -38,6 +38,12 @@ namespace Enchere2022.VuesModeles
             }
         }
 
+        public bool VisibleEtatGagnant 
+        { 
+            get => _visibleEtatGagnant;
+            set { SetProperty(ref _visibleEtatGagnant, value); } 
+        }
+
 
         #endregion
 
@@ -46,7 +52,8 @@ namespace Enchere2022.VuesModeles
         public async void GetGagnant(string param)
         {
             UnUser = await _apiServices.GetOneAsyncID<User>("api/getGagnant", User.CollClasse, param );
-            
+
+            if (UnUser == null) VisibleEtatGagnant = true;
             User.CollClasse.Clear();
         }
 

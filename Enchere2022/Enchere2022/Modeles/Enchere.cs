@@ -13,6 +13,7 @@ namespace Enchere2022.Modeles
         private DateTime _datedebut;
         private DateTime _datefin;
         private double _prixReserve;
+        private double _prixDepart;
         //private double prix_enchere;
         //private ObservableCollection<Encherir> lesEncherirs;
         private TypeEnchere leTypeEnchere;
@@ -22,7 +23,7 @@ namespace Enchere2022.Modeles
 
         #region Constructeurs
 
-        public Enchere(int id, DateTime datedebut, DateTime datefin, double prixReserve, TypeEnchere leTypeEnchere = null, Produit leProduit = null)
+        public Enchere(int id, DateTime datedebut, DateTime datefin, double prixReserve, TypeEnchere leTypeEnchere = null, Produit leProduit = null, double prixDepart = 0)
         {
             Enchere.CollClasse.Add(this);
             this._id = id;
@@ -31,6 +32,7 @@ namespace Enchere2022.Modeles
             this._prixReserve = prixReserve;
             this.leTypeEnchere = leTypeEnchere;
             this.leProduit = leProduit;
+            _prixDepart = prixDepart;
         }
 
         #endregion
@@ -43,6 +45,7 @@ namespace Enchere2022.Modeles
         //public double Prix_enchere { get => prix_enchere; set => prix_enchere = value; }
         public TypeEnchere LeTypeEnchere { get => leTypeEnchere; set => leTypeEnchere = value; }
         public Produit LeProduit { get => leProduit; set => leProduit = value; }
+        public double PrixDepart { get => _prixDepart; set => _prixDepart = value; }
         #endregion
 
         #region Methodes
