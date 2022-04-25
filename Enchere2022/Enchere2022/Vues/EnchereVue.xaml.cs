@@ -78,6 +78,8 @@ namespace Enchere2022.Vues
 
         private void collViewFlash_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var current = (Enchere)e.CurrentSelection.FirstOrDefault();
+            Application.Current.MainPage = new PageEnchereFlashVue(current);
 
         }
     }

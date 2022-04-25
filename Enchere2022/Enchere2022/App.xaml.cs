@@ -11,7 +11,7 @@ namespace Enchere2022
         {
             InitializeComponent();
             // page de demarrage
-            MainPage = new PageEnchereFlashVue();
+            MainPage = new EnchereVue();
         }
 
         protected override void OnStart()
