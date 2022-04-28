@@ -17,6 +17,7 @@ namespace Enchere2022.Vues
 
 
         PageEnchereFlashVueModele VuesModele;
+        public List<Button> ListeButton = new List<Button>();
         public PageEnchereFlashVue(Enchere param)
         {
             InitializeComponent();
@@ -28,7 +29,7 @@ namespace Enchere2022.Vues
         {
             Label labelTitre = new Label();
             labelTitre.Text = "Vente FLASH";
-            labelTitre.FontAttributes = FontAttributes.Bold ;
+            labelTitre.FontAttributes = FontAttributes.Bold;
             labelTitre.FontAttributes = FontAttributes.Italic;
 
             labelTitre.FontSize = 20;
@@ -43,10 +44,10 @@ namespace Enchere2022.Vues
         {
             Image img = new Image();
 
-            img.Source = ImageSource.FromFile(VuesModele.Photo);
+            img.Source = VuesModele.MonEnchere.LeProduit.Photo;
             img.Aspect = Aspect.AspectFit;
-            img.HeightRequest = 320;
-            img.WidthRequest = 320;
+            img.HeightRequest = 325;
+            img.WidthRequest = 325;
 
             img.VerticalOptions = LayoutOptions.Start;
             img.HorizontalOptions = LayoutOptions.Center;
@@ -78,18 +79,24 @@ namespace Enchere2022.Vues
             };
             grid.Children.Add(img);
 
+            string [] textSplit = VuesModele.MonEnchere.TableauFlash.Split(',');
+            int nb = 0;
             for (int i = 0; i < 4; i++)
             {
                 for (int j = 0; j < 4; j++)
                 {
-
                     var button = new Button();
                     button.Text = i.ToString();
+                    if(textSplit[nb] == "0")
+                    { button.IsVisible = true; }
+                    else
+                    { button.IsVisible = false; }
                     button.Clicked += OnButtonClicked;
 
                     grid.Children.Add(button, j, i);
+                    ListeButton.Add(button);
+                    nb++;
                 }
-
             }
 
             var relativeLayout = new RelativeLayout();
@@ -127,6 +134,7 @@ namespace Enchere2022.Vues
             button.SetBinding(Button.TextProperty, new Binding("BNameParticiper"));
             button.SetBinding(Button.BackgroundColorProperty, new Binding("BColorParticiper"));
             button.TextColor = Color.White;
+            button.SetBinding(Button.IsVisibleProperty, new Binding("BIsVisibleParticiper"));
             button.CornerRadius = 15;
             button.Clicked += OnButtonParticiper;
 
@@ -151,14 +159,18 @@ namespace Enchere2022.Vues
             int x = Grid.GetRow(b);
             int y = Grid.GetColumn(b);
 
-        }
-        async void OnButtonJouer(object sender, EventArgs args)
-        {
+            b.IsVisible = false;
+
+            ReconstruireTableauFlash(ListeButton);
 
         }
-        async void OnButtonParticiper(object sender, EventArgs args)
+        public void OnButtonJouer(object sender, EventArgs args)
         {
-
+            VuesModele.Jouer();
+        }
+        public void OnButtonParticiper(object sender, EventArgs args)
+        {
+            VuesModele.Participer();
         }
         public void initialiserStackLayout()
         {
@@ -196,5 +208,19 @@ namespace Enchere2022.Vues
             ScrollView scrollView = new ScrollView { Content = rl };
             Content = scrollView;
         }
+         public void ReconstruireTableauFlash(List<Button> param)
+        {
+            VuesModele.MonEnchere.TableauFlash = "";
+            foreach(Button leButton in param)
+            {
+                if(leButton.IsVisible == true)
+                { VuesModele.MonEnchere.TableauFlash += "0"; }
+                else
+                { VuesModele.MonEnchere.TableauFlash += "1"; }
+            }
+        }
+
+
+
     }
 }

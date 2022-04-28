@@ -18,12 +18,13 @@ namespace Enchere2022.Modeles
         //private ObservableCollection<Encherir> lesEncherirs;
         private TypeEnchere leTypeEnchere;
         private Produit leProduit;
+        private string _tableauFlash;
 
         #endregion
 
         #region Constructeurs
 
-        public Enchere(int id, DateTime datedebut, DateTime datefin, double prixReserve, TypeEnchere leTypeEnchere = null, Produit leProduit = null, double prixDepart = 0)
+        public Enchere(int id, DateTime datedebut, DateTime datefin, double prixReserve, TypeEnchere leTypeEnchere = null, Produit leProduit = null, double prixDepart = 0, string tableauFlash = null)
         {
             Enchere.CollClasse.Add(this);
             this._id = id;
@@ -33,6 +34,7 @@ namespace Enchere2022.Modeles
             this.leTypeEnchere = leTypeEnchere;
             this.leProduit = leProduit;
             _prixDepart = prixDepart;
+            _tableauFlash = tableauFlash;
         }
 
         #endregion
@@ -46,11 +48,15 @@ namespace Enchere2022.Modeles
         public TypeEnchere LeTypeEnchere { get => leTypeEnchere; set => leTypeEnchere = value; }
         public Produit LeProduit { get => leProduit; set => leProduit = value; }
         public double PrixDepart { get => _prixDepart; set => _prixDepart = value; }
+        public string TableauFlash { get => _tableauFlash; set => _tableauFlash = value; }
         #endregion
 
         #region Methodes
 
-
+        public void GenererTableauFlash()
+        {
+            
+        }
 
         #endregion
     }
