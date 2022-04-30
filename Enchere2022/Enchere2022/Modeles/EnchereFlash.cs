@@ -15,13 +15,14 @@ namespace Enchere2022.Modeles
         private bool _tag;
         private string _pseudo;
         private string _photo;
+        private string _tableauFlash;
 
         #endregion
 
         #region Constructeurs
 
 
-        public EnchereFlash(string id, string id_user, string id_enchere, string pseudo, bool tag,  string photo)
+        public EnchereFlash(string id, string id_user, string id_enchere, string pseudo, bool tag, string photo, string tableauFlash)
         {
             _idEnchere = id_enchere;
             _id = id;
@@ -30,6 +31,7 @@ namespace Enchere2022.Modeles
             _pseudo = pseudo;
             _photo = photo;
             _idUser = id_user;
+            _tableauFlash = tableauFlash;
         }
 
 
@@ -42,6 +44,7 @@ namespace Enchere2022.Modeles
         public string Pseudo { get => _pseudo; set => _pseudo = value; }
         public string Photo { get => _photo; set => _photo = value; }
         public string IdUser { get => _idUser; set => _idUser = value; }
+        public string TableauFlash { get => _tableauFlash; set => _tableauFlash = value; }
         #endregion
 
         #region Methodes

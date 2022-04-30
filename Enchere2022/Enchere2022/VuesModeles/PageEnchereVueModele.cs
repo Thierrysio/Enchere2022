@@ -135,7 +135,7 @@ namespace Enchere2022.VuesModeles
         }
     #endregion
     #region methodes
-    public   void GetTimerRemaining()
+        public   void GetTimerRemaining()
         {
            
 
@@ -161,7 +161,6 @@ namespace Enchere2022.VuesModeles
 
 
         }
-
         public void GetValeurActuelle()
         {
             Task.Run(async () =>
@@ -177,7 +176,6 @@ namespace Enchere2022.VuesModeles
 
 
         }
-
         public void SixDernieresEncheres()
         {
             Task.Run(async () =>
@@ -191,7 +189,6 @@ namespace Enchere2022.VuesModeles
                 }
             });
         }
-
         public void SetEnchereAuto()
         {
 
@@ -227,7 +224,6 @@ namespace Enchere2022.VuesModeles
                 }
             });
         }
-
         public async void EncherirManuel(float param)
         {
             IdUser = await SecureStorage.GetAsync("ID");

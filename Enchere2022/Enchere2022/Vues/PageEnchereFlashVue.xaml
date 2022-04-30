@@ -4,9 +4,43 @@
              x:Class="Enchere2022.Vues.PageEnchereFlashVue">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <RelativeLayout x:Name="rl">
+
+                <ContentView RelativeLayout.YConstraint="80" RelativeLayout.XConstraint="20" >
+                    <Frame HasShadow="True" CornerRadius="15" Margin="20" Padding="10" HeightRequest="100" BackgroundColor="AliceBlue">
+                        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <Label Text="Temps restant" HorizontalOptions="CenterAndExpand"  FontSize="15" TextColor="Black"/>
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal"  Grid.Row="1" HorizontalOptions="CenterAndExpand" Spacing="30">
+                                <StackLayout>
+                                    <Label Text="{Binding TempsRestantJour}" FontSize="35" FontAttributes="Bold" TextColor="Black" HorizontalOptions="End"/>
+                                    <Label Text="JOURS" FontSize="10" TextColor="Black" Opacity="0.5" HorizontalOptions="End" Margin="0,-5,0,0"/>
+                                </StackLayout>
+                                <StackLayout>
+                                    <Label Text="{Binding TempsRestantHeures}" FontSize="35" FontAttributes="Bold" TextColor="Black" HorizontalOptions="End"/>
+                                    <Label Text="HEURES" FontSize="10" TextColor="Black" Opacity="0.5" HorizontalOptions="End" Margin="0,-5,0,0"/>
+                                </StackLayout>
+                                <StackLayout>
+                                    <Label Text="{Binding TempsRestantMinutes}" FontSize="35" FontAttributes="Bold" TextColor="black" HorizontalOptions="End"/>
+                                    <Label Text="MINUTES" FontSize="10" TextColor="Black" Opacity="0.5" HorizontalOptions="End" Margin="0,-5,0,0"/>
+                                </StackLayout>
+                                <StackLayout>
+                                    <Label Text="{Binding TempsRestantSecondes}" FontSize="35" FontAttributes="Bold" TextColor="Black" HorizontalOptions="End"/>
+                                    <Label Text="SECONDES" FontSize="10" TextColor="Black" Opacity="0.5" HorizontalOptions="End" Margin="0,-5,0,0"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                </ContentView>
+
+            </RelativeLayout>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

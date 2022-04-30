@@ -1,11 +1,13 @@
 ﻿using Enchere2022.Modeles;
+using Enchere2022.Services;
 using Enchere2022.VuesModeles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -14,7 +16,8 @@ namespace Enchere2022.Vues
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PageEnchereFlashVue : ContentPage
     {
-
+        private bool OnCancel = false;
+        private readonly Api _apiServices = new Api();
 
         PageEnchereFlashVueModele VuesModele;
         public List<Button> ListeButton = new List<Button>();
@@ -23,7 +26,7 @@ namespace Enchere2022.Vues
             InitializeComponent();
             BindingContext = VuesModele = new PageEnchereFlashVueModele(param);
             initialiserStackLayout();
-
+            GetJoueurActif();
         }
         public Label InitialiserLeTitre()
         {
@@ -39,6 +42,22 @@ namespace Enchere2022.Vues
 
             //labelTitre.SetBinding(Label.TextProperty, new Binding(VuesModele.MonEnchere.LeProduit.Nom));
             return labelTitre;
+        }
+        public Label InitialiserLePrix()
+        {
+            Label labelPrix = new Label();
+            labelPrix.Text = "Vente FLASH";
+            labelPrix.FontAttributes = FontAttributes.Bold;
+            labelPrix.FontAttributes = FontAttributes.Italic;
+
+            labelPrix.FontSize = 20;
+            labelPrix.Margin = 20;
+            labelPrix.HorizontalOptions = LayoutOptions.Center;
+            labelPrix.TextColor = Color.Black;
+
+            labelPrix.SetBinding(Label.TextProperty, new Binding("PrixActuel", stringFormat: "{0} euros"));
+            
+            return labelPrix;
         }
         public RelativeLayout InitialiserGrille()
         {
@@ -79,7 +98,7 @@ namespace Enchere2022.Vues
             };
             grid.Children.Add(img);
 
-            string [] textSplit = VuesModele.MonEnchere.TableauFlash.Split(',');
+            string[] textSplit = VuesModele.MonEnchere.TableauFlash.Split(',');
             int nb = 0;
             for (int i = 0; i < 4; i++)
             {
@@ -87,7 +106,7 @@ namespace Enchere2022.Vues
                 {
                     var button = new Button();
                     button.Text = i.ToString();
-                    if(textSplit[nb] == "0")
+                    if (textSplit[nb] == "0")
                     { button.IsVisible = true; }
                     else
                     { button.IsVisible = false; }
@@ -121,7 +140,7 @@ namespace Enchere2022.Vues
         public BoxView InitialiserBoxView()
         {
             BoxView boxview = new BoxView();
-            boxview.Color = Color.Red;
+            boxview.Color = Color.Aquamarine;
             boxview.HeightRequest = 2;
             boxview.WidthRequest = 300;
 
@@ -161,7 +180,15 @@ namespace Enchere2022.Vues
 
             b.IsVisible = false;
 
-            ReconstruireTableauFlash(ListeButton);
+            this.ReconstruireTableauFlash(ListeButton);
+            this.BloquerLesCases(ListeButton);
+            VuesModele.Rencherir();
+            if (VuesModele.tmps != null && VuesModele.tmps.TempsRestant >= TimeSpan.Zero)
+            {
+                VuesModele.tmps.TempsRestant = TimeSpan.Zero;
+                VuesModele.tmps.Stop();
+            }
+
 
         }
         public void OnButtonJouer(object sender, EventArgs args)
@@ -174,53 +201,117 @@ namespace Enchere2022.Vues
         }
         public void initialiserStackLayout()
         {
-            var rl = new RelativeLayout();
+           
             rl.Children.Add(this.InitialiserLeTitre(),
+                Constraint.Constant(0),
+                Constraint.Constant(20),
+                Constraint.RelativeToParent((parent) => { return parent.Width; }),
+                Constraint.RelativeToParent((parent) => { return parent.Height; }));
+
+            rl.Children.Add(this.InitialiserLePrix(),
                Constraint.Constant(0),
-               Constraint.Constant(20),
+               Constraint.Constant(50),
                Constraint.RelativeToParent((parent) => { return parent.Width; }),
                Constraint.RelativeToParent((parent) => { return parent.Height; }));
 
             rl.Children.Add(this.InitialiserButtonParticiper(),
-    Constraint.Constant(50),
-    Constraint.Constant(80),
-    Constraint.RelativeToParent((parent) => { return parent.Width - 100; }),
-    Constraint.RelativeToParent((parent) => { return 50; }));
+                Constraint.Constant(50),
+                Constraint.Constant(80),
+                Constraint.RelativeToParent((parent) => { return parent.Width - 100; }),
+                Constraint.RelativeToParent((parent) => { return 50; }));
 
             rl.Children.Add(this.InitialiserGrille(),
                 Constraint.Constant(0),
-                Constraint.Constant(150),
+                Constraint.Constant(220),
                 Constraint.RelativeToParent((parent) => { return parent.Width; }),
                 Constraint.RelativeToParent((parent) => { return parent.Height; }));
 
             rl.Children.Add(this.InitialiserBoxView(),
                 Constraint.Constant(0),
-                Constraint.Constant(500),
+                Constraint.Constant(570),
                 Constraint.RelativeToParent((parent) => { return parent.Width; }),
                 Constraint.RelativeToParent((parent) => { return 2; }));
 
             rl.Children.Add(this.InitialiserButtonJouer(),
                 Constraint.Constant(50),
-                Constraint.Constant(530),
+                Constraint.Constant(590),
                 Constraint.RelativeToParent((parent) => { return parent.Width - 100; }),
                 Constraint.RelativeToParent((parent) => { return 50; }));
 
             ScrollView scrollView = new ScrollView { Content = rl };
             Content = scrollView;
         }
-         public void ReconstruireTableauFlash(List<Button> param)
+        public void ReconstruireTableauFlash(List<Button> param)
         {
             VuesModele.MonEnchere.TableauFlash = "";
-            foreach(Button leButton in param)
+            foreach (Button leButton in param)
             {
-                if(leButton.IsVisible == true)
-                { VuesModele.MonEnchere.TableauFlash += "0"; }
+                if (leButton.IsVisible == true)
+                { VuesModele.MonEnchere.TableauFlash += "0,"; }
                 else
-                { VuesModele.MonEnchere.TableauFlash += "1"; }
+                { VuesModele.MonEnchere.TableauFlash += "1,"; }
+            }
+
+            VuesModele.MonEnchere.TableauFlash = VuesModele.MonEnchere.TableauFlash.Remove(31);
+        }
+        public  void BloquerLesCases(List<Button> param)
+        {
+            foreach (Button leButton in param)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    leButton.IsEnabled = false; 
+                });
+
             }
         }
+        public void DebloquerLesCases(List<Button> param)
+        {
+            foreach (Button leButton in param)
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    leButton.IsEnabled = true;
+                });
 
+            }
+        }
+        public  void GetJoueurActif()
+        {
+            Task.Run(async () =>
+            {
+                while (OnCancel == false)
+                {
+                    EnchereFlash uneEnchereFlash = new EnchereFlash("", "",VuesModele.MonEnchere.Id.ToString(), "", false, "", "");
+                    uneEnchereFlash = await _apiServices.GetOneAsync<EnchereFlash>("api/getJoueurActifActuel", EnchereFlash.CollClasse, uneEnchereFlash);
+                    if (uneEnchereFlash != null)
+                    {
+                        if (uneEnchereFlash.IdUser == await SecureStorage.GetAsync("ID"))
+                        {
 
+                            if (VuesModele.tmps == null) VuesModele.GestionPhaseEncherir();
+                            if (VuesModele.tmps != null && VuesModele.tmps.TempsRestant <= TimeSpan.Zero)
+                            {
+                                VuesModele.tmps = null;
+                                BloquerLesCases(ListeButton);
+                                VuesModele.RencherirJePasse();
+
+                            }
+                            else
+                            {
+                                DebloquerLesCases(ListeButton);
+                            }
+                        }
+                        else
+                        {
+                            BloquerLesCases(ListeButton);
+                        }
+                    }
+                    Thread.Sleep(5000);
+                }
+                
+            });
+        }
 
     }
 }
